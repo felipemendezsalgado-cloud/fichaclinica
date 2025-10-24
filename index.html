@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Clínica</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'DatosPersonales')">Datos Personales</button>
+        <button class="tablinks" onclick="openTab(event, 'AnamnesisRemota')">Anamnesis Remota</button>
+        <button class="tablinks" onclick="openTab(event, 'AnamnesisProxima')">Anamnesis Próxima</button>
+        <button class="tablinks" onclick="openTab(event, 'Tratamiento')">Tratamiento</button>
+    </div>
+
+    <div id="DatosPersonales" class="tabcontent">
+        <h3>Datos Personales</h3>
+        <form>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+            <label for="rut">RUT:</label>
+            <input type="text" id="rut" name="rut">
+            <label for="fecha_ingreso">Fecha de ingreso:</label>
+            <input type="date" id="fecha_ingreso" name="fecha_ingreso">
+            <label for="ocupacion">Ocupación:</label>
+            <input type="text" id="ocupacion" name="ocupacion">
+            <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento">
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" readonly>
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" name="telefono">
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" name="correo">
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion">
+            <label for="consentimiento">Consentimiento informado:</label>
+            <input type="checkbox" id="consentimiento" name="consentimiento">
+        </form>
+    </div>
+
+    <div id="AnamnesisRemota" class="tabcontent">
+        <h3>Anamnesis Remota</h3>
+        <form>
+            <label for="comorbilidades">Comorbilidades:</label>
+            <textarea id="comorbilidades" name="comorbilidades"></textarea>
+            <label for="habitos">Hábitos:</label>
+            <textarea id="habitos" name="habitos"></textarea>
+            <label for="medicamentos">Medicamentos de uso actual:</label>
+            <textarea id="medicamentos" name="medicamentos"></textarea>
+            <label for="cirugias">Cirugías:</label>
+            <textarea id="cirugias" name="cirugias"></textarea>
+            <label for="antecedentes_familiares">Antecedentes familiares:</label>
+            <textarea id="antecedentes_familiares" name="antecedentes_familiares"></textarea>
+        </form>
+    </div>
+
+    <div id="AnamnesisProxima" class="tabcontent">
+        <h3>Anamnesis Próxima</h3>
+        <form>
+            <label for="motivo_consulta">Motivo de consulta:</label>
+            <textarea id="motivo_consulta" name="motivo_consulta"></textarea>
+            <label for="historia_motivo_consulta">Historia de motivo de consulta:</label>
+            <textarea id="historia_motivo_consulta" name="historia_motivo_consulta"></textarea>
+            <label for="pa">PA:</label>
+            <input type="text" id="pa" name="pa">
+            <label for="fc">FC:</label>
+            <input type="text" id="fc" name="fc">
+            <label for="sao2">SaO2:</label>
+            <input type="text" id="sao2" name="sao2">
+            <label for="d">D:</label>
+            <input type="text" id="d" name="d">
+            <label for="palpacion">Palpación:</label>
+            <textarea id="palpacion" name="palpacion"></textarea>
+            <label for="nivel_dolor">Nivel de dolor:</label>
+            <input type="number" id="nivel_dolor" name="nivel_dolor">
+            <label for="rom">ROM:</label>
+            <textarea id="rom" name="rom"></textarea>
+            <label for="evaluacion_funcional">Evaluación funcional:</label>
+            <textarea id="evaluacion_funcional" name="evaluacion_funcional"></textarea>
+            <label for="evaluacion_neurologica">Evaluación neurológica:</label>
+            <textarea id="evaluacion_neurologica" name="evaluacion_neurologica"></textarea>
+            <label for="pruebas_ortopedicas">Pruebas ortopédicas:</label>
+            <textarea id="pruebas_ortopedicas" name="pruebas_ortopedicas"></textarea>
+        </form>
+    </div>
+
+    <div id="Tratamiento" class="tabcontent">
+        <h3>Tratamiento</h3>
+        <form>
+            <label for="objetivo_general">Objetivo general:</label>
+            <textarea id="objetivo_general" name="objetivo_general"></textarea>
+            <label for="objetivos_especificos">Objetivos específicos:</label>
+            <textarea id="objetivos_especificos" name="objetivos_especificos"></textarea>
+            <label for="sesion1_fecha">Sesión 1: Fecha:</label>
+            <input type="date" id="sesion1_fecha" name="sesion1_fecha">
+            <label for="sesion1_evolucion">Evolución:</label>
+            <textarea id="sesion1_evolucion" name="sesion1_evolucion"></textarea>
+            <label for="sesion1_tratamiento">Tratamiento:</label>
+            <textarea id="sesion1_tratamiento" name="sesion1_tratamiento"></textarea>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
