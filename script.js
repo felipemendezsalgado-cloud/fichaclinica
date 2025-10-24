@@ -1,14 +1,12 @@
 document.addEventListener("DOMContentLoaded", function() {
     const sesionesContainer = document.getElementById('sesiones-container');
     const addSessionBtn = document.getElementById('add-session-btn');
-    let sessionCounter = 1;
 
     function updateSessionNumbers() {
         const sessionCards = document.querySelectorAll('.sesion-card');
         sessionCards.forEach((card, index) => {
             card.querySelector('.card-title').textContent = `Sesión ${index + 1}`;
         });
-        sessionCounter = sessionCards.length;
     }
 
     if (sesionesContainer) {
@@ -22,13 +20,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (addSessionBtn) {
         addSessionBtn.addEventListener('click', function() {
-            sessionCounter++;
             const newSession = document.createElement('div');
             newSession.classList.add('card', 'sesion-card', 'mb-3');
+            const newSessionNumber = document.querySelectorAll('.sesion-card').length + 1;
             newSession.innerHTML = `
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title mb-0">Sesión ${sessionCounter}</h6>
+                        <h6 class="card-title mb-0">Sesión ${newSessionNumber}</h6>
                         <button type="button" class="btn btn-danger btn-sm remove-session-btn">Quitar</button>
                     </div>
                     <div class="mb-3">
@@ -46,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
             `;
             sesionesContainer.appendChild(newSession);
+            updateSessionNumbers();
         });
     }
 
