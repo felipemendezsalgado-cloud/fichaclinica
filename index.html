@@ -174,18 +174,32 @@
                                 <label for="objetivos_especificos" class="form-label">Objetivos específicos:</label>
                                 <textarea class="form-control" id="objetivos_especificos" name="objetivos_especificos" rows="3"></textarea>
                             </div>
-                            <div class="mb-3">
-                                <label for="sesion1_fecha" class="form-label">Sesión 1: Fecha:</label>
-                                <input type="date" class="form-control" id="sesion1_fecha" name="sesion1_fecha">
+                            <hr>
+                            <h5 class="mb-3">Intervenciones</h5>
+                            <div id="sesiones-container">
+                                <!-- Session 1 -->
+                                <div class="card sesion-card mb-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h6 class="card-title mb-0">Sesión 1</h6>
+                                            <button type="button" class="btn btn-danger btn-sm remove-session-btn">Quitar</button>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Fecha:</label>
+                                            <input type="date" class="form-control" name="sesion_fecha[]">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Evolución:</label>
+                                            <textarea class="form-control" name="sesion_evolucion[]" rows="2"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Tratamiento:</label>
+                                            <textarea class="form-control" name="sesion_tratamiento[]" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="sesion1_evolucion" class="form-label">Evolución:</label>
-                                <textarea class="form-control" id="sesion1_evolucion" name="sesion1_evolucion" rows="3"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="sesion1_tratamiento" class="form-label">Tratamiento:</label>
-                                <textarea class="form-control" id="sesion1_tratamiento" name="sesion1_tratamiento" rows="3"></textarea>
-                            </div>
+                            <button type="button" id="add-session-btn" class="btn btn-success mt-2">Agregar Sesión</button>
                         </form>
                     </div>
                 </div>
