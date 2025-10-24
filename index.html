@@ -4,104 +4,196 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ficha Clínica</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'DatosPersonales')">Datos Personales</button>
-        <button class="tablinks" onclick="openTab(event, 'AnamnesisRemota')">Anamnesis Remota</button>
-        <button class="tablinks" onclick="openTab(event, 'AnamnesisProxima')">Anamnesis Próxima</button>
-        <button class="tablinks" onclick="openTab(event, 'Tratamiento')">Tratamiento</button>
+    <div class="container mt-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="datos-personales-tab" data-bs-toggle="tab" data-bs-target="#datos-personales" type="button" role="tab" aria-controls="datos-personales" aria-selected="true">Datos Personales</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="anamnesis-remota-tab" data-bs-toggle="tab" data-bs-target="#anamnesis-remota" type="button" role="tab" aria-controls="anamnesis-remota" aria-selected="false">Anamnesis Remota</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="anamnesis-proxima-tab" data-bs-toggle="tab" data-bs-target="#anamnesis-proxima" type="button" role="tab" aria-controls="anamnesis-proxima" aria-selected="false">Anamnesis Próxima</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tratamiento-tab" data-bs-toggle="tab" data-bs-target="#tratamiento" type="button" role="tab" aria-controls="tratamiento" aria-selected="false">Tratamiento</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="datos-personales" role="tabpanel" aria-labelledby="datos-personales-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Datos Personales</h5>
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="rut" class="form-label">RUT:</label>
+                                <input type="text" class="form-control" id="rut" name="rut">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fecha_ingreso" class="form-label">Fecha de ingreso:</label>
+                                <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ocupacion" class="form-label">Ocupación:</label>
+                                <input type="text" class="form-control" id="ocupacion" name="ocupacion">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento:</label>
+                                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="edad" class="form-label">Edad:</label>
+                                <input type="number" class="form-control" id="edad" name="edad" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefono" class="form-label">Teléfono:</label>
+                                <input type="tel" class="form-control" id="telefono" name="telefono">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="correo" class="form-label">Correo:</label>
+                                <input type="email" class="form-control" id="correo" name="correo">
+                            </div>
+                            <div class="col-12">
+                                <label for="direccion" class="form-label">Dirección:</label>
+                                <input type="text" class="form-control" id="direccion" name="direccion">
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="consentimiento" name="consentimiento">
+                                    <label class="form-check-label" for="consentimiento">Consentimiento informado:</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="anamnesis-remota" role="tabpanel" aria-labelledby="anamnesis-remota-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Anamnesis Remota</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="comorbilidades" class="form-label">Comorbilidades:</label>
+                                <textarea class="form-control" id="comorbilidades" name="comorbilidades" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="habitos" class="form-label">Hábitos:</label>
+                                <textarea class="form-control" id="habitos" name="habitos" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="medicamentos" class="form-label">Medicamentos de uso actual:</label>
+                                <textarea class="form-control" id="medicamentos" name="medicamentos" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cirugias" class="form-label">Cirugías:</label>
+                                <textarea class="form-control" id="cirugias" name="cirugias" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="antecedentes_familiares" class="form-label">Antecedentes familiares:</label>
+                                <textarea class="form-control" id="antecedentes_familiares" name="antecedentes_familiares" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="anamnesis-proxima" role="tabpanel" aria-labelledby="anamnesis-proxima-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Anamnesis Próxima</h5>
+                        <form class="row g-3">
+                            <div class="col-12">
+                                <label for="motivo_consulta" class="form-label">Motivo de consulta:</label>
+                                <textarea class="form-control" id="motivo_consulta" name="motivo_consulta" rows="3"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label for="historia_motivo_consulta" class="form-label">Historia de motivo de consulta:</label>
+                                <textarea class="form-control" id="historia_motivo_consulta" name="historia_motivo_consulta" rows="3"></textarea>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="pa" class="form-label">PA:</label>
+                                <input type="text" class="form-control" id="pa" name="pa">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="fc" class="form-label">FC:</label>
+                                <input type="text" class="form-control" id="fc" name="fc">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="sao2" class="form-label">SaO2:</label>
+                                <input type="text" class="form-control" id="sao2" name="sao2">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="d" class="form-label">D:</label>
+                                <input type="text" class="form-control" id="d" name="d">
+                            </div>
+                            <div class="col-12">
+                                <label for="palpacion" class="form-label">Palpación:</label>
+                                <textarea class="form-control" id="palpacion" name="palpacion" rows="3"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="nivel_dolor" class="form-label">Nivel de dolor:</label>
+                                <input type="number" class="form-control" id="nivel_dolor" name="nivel_dolor">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="rom" class="form-label">ROM:</label>
+                                <textarea class="form-control" id="rom" name="rom" rows="3"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label for="evaluacion_funcional" class="form-label">Evaluación funcional:</label>
+                                <textarea class="form-control" id="evaluacion_funcional" name="evaluacion_funcional" rows="3"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label for="evaluacion_neurologica" class="form-label">Evaluación neurológica:</label>
+                                <textarea class="form-control" id="evaluacion_neurologica" name="evaluacion_neurologica" rows="3"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label for="pruebas_ortopedicas" class="form-label">Pruebas ortopédicas:</label>
+                                <textarea class="form-control" id="pruebas_ortopedicas" name="pruebas_ortopedicas" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tratamiento" role="tabpanel" aria-labelledby="tratamiento-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Tratamiento</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="objetivo_general" class="form-label">Objetivo general:</label>
+                                <textarea class="form-control" id="objetivo_general" name="objetivo_general" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="objetivos_especificos" class="form-label">Objetivos específicos:</label>
+                                <textarea class="form-control" id="objetivos_especificos" name="objetivos_especificos" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sesion1_fecha" class="form-label">Sesión 1: Fecha:</label>
+                                <input type="date" class="form-control" id="sesion1_fecha" name="sesion1_fecha">
+                            </div>
+                            <div class="mb-3">
+                                <label for="sesion1_evolucion" class="form-label">Evolución:</label>
+                                <textarea class="form-control" id="sesion1_evolucion" name="sesion1_evolucion" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sesion1_tratamiento" class="form-label">Tratamiento:</label>
+                                <textarea class="form-control" id="sesion1_tratamiento" name="sesion1_tratamiento" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="DatosPersonales" class="tabcontent">
-        <h3>Datos Personales</h3>
-        <form>
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre">
-            <label for="rut">RUT:</label>
-            <input type="text" id="rut" name="rut">
-            <label for="fecha_ingreso">Fecha de ingreso:</label>
-            <input type="date" id="fecha_ingreso" name="fecha_ingreso">
-            <label for="ocupacion">Ocupación:</label>
-            <input type="text" id="ocupacion" name="ocupacion">
-            <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento">
-            <label for="edad">Edad:</label>
-            <input type="number" id="edad" name="edad" readonly>
-            <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono">
-            <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo">
-            <label for="direccion">Dirección:</label>
-            <input type="text" id="direccion" name="direccion">
-            <label for="consentimiento">Consentimiento informado:</label>
-            <input type="checkbox" id="consentimiento" name="consentimiento">
-        </form>
-    </div>
-
-    <div id="AnamnesisRemota" class="tabcontent">
-        <h3>Anamnesis Remota</h3>
-        <form>
-            <label for="comorbilidades">Comorbilidades:</label>
-            <textarea id="comorbilidades" name="comorbilidades"></textarea>
-            <label for="habitos">Hábitos:</label>
-            <textarea id="habitos" name="habitos"></textarea>
-            <label for="medicamentos">Medicamentos de uso actual:</label>
-            <textarea id="medicamentos" name="medicamentos"></textarea>
-            <label for="cirugias">Cirugías:</label>
-            <textarea id="cirugias" name="cirugias"></textarea>
-            <label for="antecedentes_familiares">Antecedentes familiares:</label>
-            <textarea id="antecedentes_familiares" name="antecedentes_familiares"></textarea>
-        </form>
-    </div>
-
-    <div id="AnamnesisProxima" class="tabcontent">
-        <h3>Anamnesis Próxima</h3>
-        <form>
-            <label for="motivo_consulta">Motivo de consulta:</label>
-            <textarea id="motivo_consulta" name="motivo_consulta"></textarea>
-            <label for="historia_motivo_consulta">Historia de motivo de consulta:</label>
-            <textarea id="historia_motivo_consulta" name="historia_motivo_consulta"></textarea>
-            <label for="pa">PA:</label>
-            <input type="text" id="pa" name="pa">
-            <label for="fc">FC:</label>
-            <input type="text" id="fc" name="fc">
-            <label for="sao2">SaO2:</label>
-            <input type="text" id="sao2" name="sao2">
-            <label for="d">D:</label>
-            <input type="text" id="d" name="d">
-            <label for="palpacion">Palpación:</label>
-            <textarea id="palpacion" name="palpacion"></textarea>
-            <label for="nivel_dolor">Nivel de dolor:</label>
-            <input type="number" id="nivel_dolor" name="nivel_dolor">
-            <label for="rom">ROM:</label>
-            <textarea id="rom" name="rom"></textarea>
-            <label for="evaluacion_funcional">Evaluación funcional:</label>
-            <textarea id="evaluacion_funcional" name="evaluacion_funcional"></textarea>
-            <label for="evaluacion_neurologica">Evaluación neurológica:</label>
-            <textarea id="evaluacion_neurologica" name="evaluacion_neurologica"></textarea>
-            <label for="pruebas_ortopedicas">Pruebas ortopédicas:</label>
-            <textarea id="pruebas_ortopedicas" name="pruebas_ortopedicas"></textarea>
-        </form>
-    </div>
-
-    <div id="Tratamiento" class="tabcontent">
-        <h3>Tratamiento</h3>
-        <form>
-            <label for="objetivo_general">Objetivo general:</label>
-            <textarea id="objetivo_general" name="objetivo_general"></textarea>
-            <label for="objetivos_especificos">Objetivos específicos:</label>
-            <textarea id="objetivos_especificos" name="objetivos_especificos"></textarea>
-            <label for="sesion1_fecha">Sesión 1: Fecha:</label>
-            <input type="date" id="sesion1_fecha" name="sesion1_fecha">
-            <label for="sesion1_evolucion">Evolución:</label>
-            <textarea id="sesion1_evolucion" name="sesion1_evolucion"></textarea>
-            <label for="sesion1_tratamiento">Tratamiento:</label>
-            <textarea id="sesion1_tratamiento" name="sesion1_tratamiento"></textarea>
-        </form>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
 </html>
