@@ -53,69 +53,33 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    function handleImagePreview(e) {
+        // Check if the event target is a file input
+        if (e.target.matches('input[type="file"]')) {
+            const file = e.target.files[0];
+            const img = e.target.nextElementSibling;
+
+            // Ensure we have a file and an adjacent img tag
+            if (file && img && img.tagName === 'IMG') {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    img.src = event.target.result;
+                    img.classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+
+    // Attach the single event listener to a common ancestor (e.g., the main container)
+    // This uses event delegation to handle clicks from multiple file inputs.
+    const mainContent = document.getElementById('myTabContent');
+    if (mainContent) {
+        mainContent.addEventListener('change', handleImagePreview);
+    }
+    // Also attach to the sessions container for dynamically added sessions
     if (sesionesContainer) {
-        sesionesContainer.addEventListener('change', function(e) {
-            if (e.target.matches('input[type="file"][name="sesion_archivo[]"]')) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const img = e.target.nextElementSibling;
-                        img.src = event.target.result;
-                        img.classList.remove('d-none');
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
-        });
-    }
-
-    const inspeccionArchivoInput = document.getElementById('inspeccion_archivo');
-    if (inspeccionArchivoInput) {
-        inspeccionArchivoInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = e.target.nextElementSibling;
-                    img.src = event.target.result;
-                    img.classList.remove('d-none');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    }
-
-    const aromArchivoInput = document.getElementById('arom_archivo');
-    if (aromArchivoInput) {
-        aromArchivoInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = e.target.nextElementSibling;
-                    img.src = event.target.result;
-                    img.classList.remove('d-none');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    }
-
-    const promArchivoInput = document.getElementById('prom_archivo');
-    if (promArchivoInput) {
-        promArchivoInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = e.target.nextElementSibling;
-                    img.src = event.target.result;
-                    img.classList.remove('d-none');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+        sesionesContainer.addEventListener('change', handleImagePreview);
     }
 
     const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
@@ -304,7 +268,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     data.datosPersonales[id] = el.type === 'checkbox' ? el.checked : el.value;
                     break;
                 case 'anamnesis-remota':
-                    data.anamnesisRemota[id] = el.value;
+                    data.anamnesisRemota[id] = el.type === 'checkbox' ? el.checked : el.value;
                     break;
                 case 'anamnesis-proxima':
                     data.anamnesisProxima[id] = el.type === 'checkbox' ? el.checked : el.value;

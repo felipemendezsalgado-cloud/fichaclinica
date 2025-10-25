@@ -107,8 +107,98 @@
                         <h5 class="card-title">Anamnesis Remota</h5>
                         <form>
                             <div class="mb-3">
-                                <label for="comorbilidades" class="form-label">Comorbilidades:</label>
-                                <textarea class="form-control" id="comorbilidades" name="comorbilidades" rows="3"></textarea>
+                                <label class="form-label d-block">Comorbilidades:</label>
+                                <div class="row">
+                                    <!-- Column 1 -->
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_hta" name="comorbilidad_hta">
+                                            <label class="form-check-label" for="comorbilidad_hta">HTA o Cardiopatía</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_dm" name="comorbilidad_dm">
+                                            <label class="form-check-label" for="comorbilidad_dm">Diabetes Mellitus</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_dislipidemia" name="comorbilidad_dislipidemia">
+                                            <label class="form-check-label" for="comorbilidad_dislipidemia">Dislipidemia</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_artrosis" name="comorbilidad_artrosis">
+                                            <label class="form-check-label" for="comorbilidad_artrosis">Artrosis</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_alergias" name="comorbilidad_alergias">
+                                            <label class="form-check-label" for="comorbilidad_alergias">Alergias</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_epoc" name="comorbilidad_epoc">
+                                            <label class="form-check-label" for="comorbilidad_epoc">EPOC</label>
+                                        </div>
+                                    </div>
+                                    <!-- Column 2 -->
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_asma" name="comorbilidad_asma">
+                                            <label class="form-check-label" for="comorbilidad_asma">Asma</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_cancer" name="comorbilidad_cancer">
+                                            <label class="form-check-label" for="comorbilidad_cancer">Cáncer</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_cognitivo" name="comorbilidad_cognitivo">
+                                            <label class="form-check-label" for="comorbilidad_cognitivo">Trastorno cognitivo</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_sedentarismo" name="comorbilidad_sedentarismo">
+                                            <label class="form-check-label" for="comorbilidad_sedentarismo">Sedentarismo</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_artritis" name="comorbilidad_artritis">
+                                            <label class="form-check-label" for="comorbilidad_artritis">Artritis o reumatismo</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_auditiva" name="comorbilidad_auditiva">
+                                            <label class="form-check-label" for="comorbilidad_auditiva">Alteración auditiva</label>
+                                        </div>
+                                    </div>
+                                    <!-- Column 3 -->
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_visual" name="comorbilidad_visual">
+                                            <label class="form-check-label" for="comorbilidad_visual">Alteración visual</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_equilibrio" name="comorbilidad_equilibrio">
+                                            <label class="form-check-label" for="comorbilidad_equilibrio">Alteración equilibrio</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_incontinencia" name="comorbilidad_incontinencia">
+                                            <label class="form-check-label" for="comorbilidad_incontinencia">Incontinencia</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_ansiedad" name="comorbilidad_ansiedad">
+                                            <label class="form-check-label" for="comorbilidad_ansiedad">Ansiedad</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="comorbilidad_depresion" name="comorbilidad_depresion">
+                                            <label class="form-check-label" for="comorbilidad_depresion">Depresión</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Other comorbidities -->
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" type="checkbox" id="comorbilidad_otras_check" name="comorbilidad_otras_check">
+                                            </div>
+                                            <span class="input-group-text">Otras:</span>
+                                            <input type="text" class="form-control" id="comorbilidad_otras_text" name="comorbilidad_otras_text" placeholder="Especifique...">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="habitos" class="form-label">Hábitos:</label>
@@ -423,7 +513,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
