@@ -127,10 +127,91 @@ document.addEventListener("DOMContentLoaded", function() {
             const format = document.querySelector('input[name="export-format"]:checked').value;
             if (format === 'pdf') {
                 exportToPdf();
-            } else if (format === 'xlsx') {
-                exportToXlsx();
+            } else if (format === 'html') {
+                exportToHtml();
             }
         });
+    }
+
+    function exportToHtml() {
+        const nombre = document.getElementById('nombre').value || "sin-nombre";
+        const fecha = new Date().toISOString().slice(0, 10);
+        const filename = `ficha-clinica-${nombre}-${fecha}.html`;
+
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Ficha Clínica - ${nombre}</title>
+                <style>
+                    body { font-family: sans-serif; margin: 2rem; }
+                    .section { margin-bottom: 1.5rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem; }
+                    h1 { text-align: center; }
+                    h2 { border-bottom: 2px solid #333; }
+                    .field { margin-bottom: 0.5rem; }
+                    .field strong { display: inline-block; width: 200px; }
+                </style>
+            </head>
+            <body>
+                <h1>Ficha Clínica</h1>
+                <div class="section">
+                    <h2>Datos Personales</h2>
+                    ${
+                        [...document.querySelectorAll('#datos-personales .form-control, #datos-personales .form-check-input')]
+                        .map(el => `<div class="field"><strong>${el.labels[0].textContent}</strong> ${el.type === 'checkbox' ? (el.checked ? 'Sí' : 'No') : el.value}</div>`).join('')
+                    }
+                </div>
+                <div class="section">
+                    <h2>Anamnesis Remota</h2>
+                    ${
+                        [...document.querySelectorAll('#anamnesis-remota .form-control')]
+                        .map(el => `<div class="field"><strong>${el.labels[0].textContent}</strong><br>${el.value.replace(/\n/g, '<br>')}</div>`).join('')
+                    }
+                </div>
+                <div class="section">
+                    <h2>Anamnesis Próxima</h2>
+                    ${
+                        [...document.querySelectorAll('#anamnesis-proxima .form-control, #anamnesis-proxima .form-check-input')]
+                        .map(el => `<div class="field"><strong>${el.labels[0].textContent}</strong> ${el.type === 'checkbox' ? (el.checked ? 'Sí' : 'No') : el.value}</div>`).join('')
+                    }
+                     <div class="field"><strong>Nivel de dolor seleccionado:</strong> ${document.getElementById('dolor-seleccionado').textContent}</div>
+                </div>
+                 <div class="section">
+                    <h2>Tratamiento</h2>
+                    <div class="field"><strong>Objetivo general:</strong><br>${document.getElementById('objetivo_general').value.replace(/\n/g, '<br>')}</div>
+                    <div class="field"><strong>Objetivos específicos:</strong><br>${document.getElementById('objetivos_especificos').value.replace(/\n/g, '<br>')}</div>
+                    <h3>Sesiones</h3>
+                     ${
+                        [...document.querySelectorAll('.sesion-card')].map((card, index) => {
+                            const fecha = card.querySelector('input[name="sesion_fecha[]"]').value;
+                            const evolucion = card.querySelector('textarea[name="sesion_evolucion[]"]').value;
+                            const tratamiento = card.querySelector('textarea[name="sesion_tratamiento[]"]').value;
+                            const imgSrc = card.querySelector('img').src;
+
+                            return `
+                                <div class="session-card">
+                                    <h4>Sesión ${index + 1}</h4>
+                                    <div class="field"><strong>Fecha:</strong> ${fecha}</div>
+                                    <div class="field"><strong>Evolución:</strong><br>${evolucion.replace(/\n/g, '<br>')}</div>
+                                    <div class="field"><strong>Tratamiento:</strong><br>${tratamiento.replace(/\n/g, '<br>')}</div>
+                                    ${imgSrc ? `<div class="field"><img src="${imgSrc}" style="max-width: 400px; margin-top: 1rem;" alt="Imagen de sesión"></div>` : ''}
+                                </div>
+                            `;
+                        }).join('')
+                    }
+                </div>
+            </body>
+            </html>
+        `;
+
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(link.href);
     }
 
     function exportToPdf() {
@@ -258,115 +339,5 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         doc.save('ficha-clinica.pdf');
-    }
-
-    function exportToXlsx() {
-        const data = [];
-
-        // Datos Personales
-        const datosPersonales = {
-            "Datos Personales": [
-                { "Campo": "Nombre", "Valor": document.getElementById('nombre').value },
-                { "Campo": "RUT", "Valor": document.getElementById('rut').value },
-                { "Campo": "Fecha de ingreso", "Valor": document.getElementById('fecha_ingreso').value },
-                { "Campo": "Ocupación", "Valor": document.getElementById('ocupacion').value },
-                { "Campo": "Fecha de nacimiento", "Valor": document.getElementById('fecha_nacimiento').value },
-                { "Campo": "Edad", "Valor": document.getElementById('edad').value },
-                { "Campo": "Teléfono", "Valor": document.getElementById('telefono').value },
-                { "Campo": "Correo", "Valor": document.getElementById('correo').value },
-                { "Campo": "Dirección", "Valor": document.getElementById('direccion').value },
-            ]
-        };
-        data.push(datosPersonales);
-
-        // Anamnesis Remota
-        const anamnesisRemota = {
-            "Anamnesis Remota": [
-                { "Campo": "Comorbilidades", "Valor": document.getElementById('comorbilidades').value },
-                { "Campo": "Hábitos", "Valor": document.getElementById('habitos').value },
-                { "Campo": "Medicamentos de uso actual", "Valor": document.getElementById('medicamentos').value },
-                { "Campo": "Cirugías", "Valor": document.getElementById('cirugias').value },
-                { "Campo": "Antecedentes familiares", "Valor": document.getElementById('antecedentes_familiares').value },
-            ]
-        };
-        data.push(anamnesisRemota);
-
-        // Anamnesis Próxima
-        const anamnesisProxima = {
-            "Anamnesis Próxima": [
-                { "Campo": "Motivo de consulta", "Valor": document.getElementById('motivo_consulta').value },
-                { "Campo": "Fecha de inicio de síntomas", "Valor": document.getElementById('fecha_inicio_sintomas').value },
-                { "Campo": "Diagnóstico médico", "Valor": document.getElementById('diagnostico_medico').value },
-                { "Campo": "Historia de motivo de consulta", "Valor": document.getElementById('historia_motivo_consulta').value },
-                { "Campo": "EVA", "Valor": document.getElementById('dolor-seleccionado').textContent },
-                { "Campo": "PA", "Valor": document.getElementById('pa').value },
-                { "Campo": "FC", "Valor": document.getElementById('fc').value },
-                { "Campo": "SaO2", "Valor": document.getElementById('sao2').value },
-                { "Campo": "D", "Valor": document.getElementById('d').value },
-                { "Campo": "Palpación", "Valor": document.getElementById('palpacion').value },
-                { "Campo": "ROM", "Valor": document.getElementById('rom').value },
-                { "Campo": "Evaluación funcional", "Valor": document.getElementById('evaluacion_funcional').value },
-                { "Campo": "Evaluación neurológica", "Valor": document.getElementById('evaluacion_neurologica').value },
-                { "Campo": "Pruebas ortopédicas", "Valor": document.getElementById('pruebas_ortopedicas').value },
-            ]
-        };
-        data.push(anamnesisProxima);
-
-        // Tratamiento
-        const tratamientoData = [];
-        tratamientoData.push({ "Campo": "Objetivo general", "Valor": document.getElementById('objetivo_general').value });
-        tratamientoData.push({ "Campo": "Objetivos específicos", "Valor": document.getElementById('objetivos_especificos').value });
-
-        document.querySelectorAll('.sesion-card').forEach((card, index) => {
-            tratamientoData.push({ "Campo": `Sesión ${index + 1} - Fecha`, "Valor": card.querySelector('input[name="sesion_fecha[]"]').value });
-            tratamientoData.push({ "Campo": `Sesión ${index + 1} - Evolución`, "Valor": card.querySelector('textarea[name="sesion_evolucion[]"]').value });
-            tratamientoData.push({ "Campo": `Sesión ${index + 1} - Tratamiento`, "Valor": card.querySelector('textarea[name="sesion_tratamiento[]"]').value });
-        });
-        const tratamiento = { "Tratamiento": tratamientoData };
-        data.push(tratamiento);
-
-        $().excelExport(data, 'ficha-clinica.xlsx');
-    }
-
-    const importarBtn = document.getElementById('importar-btn');
-    if (importarBtn) {
-        importarBtn.addEventListener('click', function() {
-            const fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.accept = '.xlsx';
-            fileInput.onchange = e => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const data = new Uint8Array(event.target.result);
-                        const workbook = XLSX.read(data, { type: 'array' });
-
-                        // Clear existing data
-                        nuevaFichaBtn.click();
-
-                        // Populate fields
-                        workbook.SheetNames.forEach(sheetName => {
-                            const worksheet = workbook.Sheets[sheetName];
-                            const json = XLSX.utils.sheet_to_json(worksheet);
-                            json.forEach(row => {
-                                const field = row.Campo;
-                                const value = row.Valor;
-                                const element = document.querySelector(`[aria-label="${field}"], [for="${field}"], #${field}`);
-                                if (element) {
-                                    const targetId = element.htmlFor || element.id;
-                                    const targetElement = document.getElementById(targetId);
-                                    if (targetElement) {
-                                        targetElement.value = value;
-                                    }
-                                }
-                            });
-                        });
-                    };
-                    reader.readAsArrayBuffer(file);
-                }
-            };
-            fileInput.click();
-        });
     }
 });
