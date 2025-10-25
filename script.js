@@ -72,7 +72,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (confirmarDolorBtn) {
         confirmarDolorBtn.addEventListener('click', function() {
-            dolorSeleccionado.textContent = dolorSlider.value;
+            const formattedValue = parseFloat(dolorSlider.value).toFixed(1);
+            dolorSeleccionado.textContent = `${formattedValue} cm`;
             dolorSeleccionado.classList.remove('d-none');
         });
     }

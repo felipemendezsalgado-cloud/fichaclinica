@@ -1,3 +1,30 @@
 #dolor-seleccionado {
     font-weight: bold;
 }
+
+#dolor-slider {
+    background: linear-gradient(to right, green, yellow, red);
+}
+
+/* For WebKit browsers (Chrome, Safari) */
+input[type=range].form-range::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, green, yellow, red);
+    height: 10px;
+    border-radius: 5px;
+}
+
+/* For Mozilla Firefox */
+input[type=range].form-range::-moz-range-track {
+    background: linear-gradient(to right, green, yellow, red);
+    height: 10px;
+    border-radius: 5px;
+}
+
+/* For Microsoft Edge */
+input[type=range].form-range::-ms-track {
+    background: linear-gradient(to right, green, yellow, red);
+    height: 10px;
+    border-radius: 5px;
+    border: none;
+    color: transparent;
+}
