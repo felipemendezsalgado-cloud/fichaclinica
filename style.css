@@ -45,3 +45,12 @@ input[type=range].form-range::-ms-track {
     border-right: 1px solid #dee2e6;
     padding-right: 15px;
 }
+
+#banner-container {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    height: 150px;
+    width: 100%;
+}
