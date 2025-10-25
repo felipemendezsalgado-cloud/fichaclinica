@@ -13,16 +13,23 @@
             <div class="col-md-2 sidebar">
                 <div class="d-flex flex-column">
                     <button id="nueva-ficha-btn" class="btn btn-primary mb-2">Nueva ficha</button>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle mb-2" type="button" id="exportar-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            Exportar
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="exportar-dropdown">
-                            <li><a class="dropdown-item" id="exportar-pdf-btn" href="#">Exportar como PDF</a></li>
-                            <li><a class="dropdown-item" id="exportar-excel-btn" href="#">Exportar como Excel</a></li>
-                        </ul>
+                    <div class="mb-2">
+                        <h6>Exportar</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="export-format" id="export-pdf" value="pdf" checked>
+                            <label class="form-check-label" for="export-pdf">
+                                .pdf
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="export-format" id="export-xlsx" value="xlsx">
+                            <label class="form-check-label" for="export-xlsx">
+                                .xlsx
+                            </label>
+                        </div>
                     </div>
-                    <button id="importar-btn" class="btn btn-secondary" disabled>Importar</button>
+                    <button id="descargar-btn" class="btn btn-success mb-2">Descargar</button>
+                    <button id="importar-btn" class="btn btn-info">Importar</button>
                 </div>
             </div>
             <div class="col-md-10">
@@ -360,6 +367,7 @@
     <script src="https://cdn.jsdelivr.net/npm/excel-export-js@1.0.1/src/Scripts/jquery.techbytarun.excelexportjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
