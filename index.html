@@ -98,8 +98,55 @@
                         <h5 class="card-title">Anamnesis Remota</h5>
                         <form>
                             <div class="mb-3">
-                                <label for="comorbilidades" class="form-label">Comorbilidades:</label>
-                                <textarea class="form-control" id="comorbilidades" name="comorbilidades" rows="3"></textarea>
+                                <label class="form-label">Comorbilidades:</label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="hta" name="comorbilidades" value="HTA">
+                                            <label class="form-check-label" for="hta">HTA</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="dm" name="comorbilidades" value="DM">
+                                            <label class="form-check-label" for="dm">DM</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="dislipidemia" name="comorbilidades" value="Dislipidemia">
+                                            <label class="form-check-label" for="dislipidemia">Dislipidemia</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="enf_tiroidea" name="comorbilidades" value="Enf. tiroidea">
+                                            <label class="form-check-label" for="enf_tiroidea">Enf. tiroidea</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="enf_autoinmune" name="comorbilidades" value="Enf. autoinmune">
+                                            <label class="form-check-label" for="enf_autoinmune">Enf. autoinmune</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="cancer" name="comorbilidades" value="Cáncer">
+                                            <label class="form-check-label" for="cancer">Cáncer</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="depresion" name="comorbilidades" value="Depresión">
+                                            <label class="form-check-label" for="depresion">Depresión</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="ansiedad" name="comorbilidades" value="Ansiedad">
+                                            <label class="form-check-label" for="ansiedad">Ansiedad</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="alt_equilibrio" name="comorbilidades" value="Alteración equilibrio">
+                                            <label class="form-check-label" for="alt_equilibrio">Alteración equilibrio</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="mareos_vertigo" name="comorbilidades" value="Mareos o vértigo">
+                                            <label class="form-check-label" for="mareos_vertigo">Mareos o vértigo</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="habitos" class="form-label">Hábitos:</label>
@@ -110,8 +157,16 @@
                                 <textarea class="form-control" id="medicamentos" name="medicamentos" rows="3"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="cirugias" class="form-label">Cirugías:</label>
+                                <label for="cirugias" class="form-label">Intervenciones quirúrgicas:</label>
                                 <textarea class="form-control" id="cirugias" name="cirugias" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ultimo_control_medico" class="form-label">Último control médico por comorbilidades y/o cirugías:</label>
+                                <textarea class="form-control" id="ultimo_control_medico" name="ultimo_control_medico" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="traumatismos" class="form-label">Traumatismos o lesiones antiguas:</label>
+                                <textarea class="form-control" id="traumatismos" name="traumatismos" rows="3"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="antecedentes_familiares" class="form-label">Antecedentes familiares:</label>
