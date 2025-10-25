@@ -280,16 +280,34 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label for="palpacion" class="form-label">Palpación:</label>
-                                <textarea class="form-control" id="palpacion" name="palpacion" rows="3"></textarea>
+                                <div class="card mt-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Exploración general</h6>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="inspeccion_descripcion" class="form-label">Inspección:</label>
+                                                <textarea class="form-control" id="inspeccion_descripcion" name="inspeccion_descripcion" rows="3"></textarea>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="inspeccion_archivo" class="form-label">Importar archivo (PNG o JPG):</label>
+                                                <input type="file" class="form-control" id="inspeccion_archivo" name="inspeccion_archivo" accept="image/png, image/jpeg">
+                                                <img src="" alt="Vista previa de la imagen de inspección" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="palpacion" class="form-label">Palpación:</label>
+                                                <textarea class="form-control" id="palpacion" name="palpacion" rows="3"></textarea>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="evaluacion_funcional" class="form-label">Exploración funcional:</label>
+                                                <textarea class="form-control" id="evaluacion_funcional" name="evaluacion_funcional" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="rom" class="form-label">ROM:</label>
                                 <textarea class="form-control" id="rom" name="rom" rows="3"></textarea>
-                            </div>
-                            <div class="col-12">
-                                <label for="evaluacion_funcional" class="form-label">Evaluación funcional:</label>
-                                <textarea class="form-control" id="evaluacion_funcional" name="evaluacion_funcional" rows="3"></textarea>
                             </div>
                             <div class="col-12">
                                 <label for="evaluacion_neurologica" class="form-label">Evaluación neurológica:</label>

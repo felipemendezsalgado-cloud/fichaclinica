@@ -70,6 +70,22 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    const inspeccionArchivoInput = document.getElementById('inspeccion_archivo');
+    if (inspeccionArchivoInput) {
+        inspeccionArchivoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = e.target.nextElementSibling;
+                    img.src = event.target.result;
+                    img.classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
     const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
     const edadInput = document.getElementById('edad');
 
@@ -179,6 +195,14 @@ document.addEventListener("DOMContentLoaded", function() {
             dolorSeleccionado.classList.remove('d-none');
         }
 
+        // Handle Inspeccion image display
+        const inspeccionImg = document.querySelector('#inspeccion_archivo + img');
+        if (data.anamnesisProxima['inspeccion_imagen'] && data.anamnesisProxima['inspeccion_imagen'].startsWith('data:image')) {
+            inspeccionImg.src = data.anamnesisProxima['inspeccion_imagen'];
+            inspeccionImg.classList.remove('d-none');
+        }
+
+
         // Populate tratamiento goals
         document.getElementById('objetivo_general').value = data.tratamiento.objetivoGeneral;
         document.getElementById('objetivos_especificos').value = data.tratamiento.objetivosEspecificos;
@@ -248,6 +272,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Handle EVA separately
         data.anamnesisProxima['dolor-seleccionado'] = document.getElementById('dolor-seleccionado').textContent;
+
+        // Handle Inspeccion image
+        const inspeccionImg = document.querySelector('#inspeccion_archivo + img');
+        if (inspeccionImg && inspeccionImg.src.startsWith('data:image')) {
+            data.anamnesisProxima['inspeccion_imagen'] = inspeccionImg.src;
+        } else {
+            data.anamnesisProxima['inspeccion_imagen'] = '';
+        }
 
         // Gather session data
         document.querySelectorAll('.sesion-card').forEach(card => {
