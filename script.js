@@ -77,4 +77,135 @@ document.addEventListener("DOMContentLoaded", function() {
             dolorSeleccionado.classList.remove('d-none');
         });
     }
+
+    const nuevaFichaBtn = document.getElementById('nueva-ficha-btn');
+    if (nuevaFichaBtn) {
+        nuevaFichaBtn.addEventListener('click', function() {
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => form.reset());
+
+            // Clear the selected pain level display
+            if (dolorSeleccionado) {
+                dolorSeleccionado.textContent = '';
+                dolorSeleccionado.classList.add('d-none');
+            }
+
+            // Remove all but the first treatment session
+            const allSessions = sesionesContainer.querySelectorAll('.sesion-card');
+            for (let i = allSessions.length - 1; i > 0; i--) {
+                allSessions[i].remove();
+            }
+            updateSessionNumbers();
+        });
+    }
+
+    const exportarBtn = document.getElementById('exportar-btn');
+    if (exportarBtn) {
+        exportarBtn.addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Title
+            doc.setFontSize(20);
+            doc.text("Ficha Clínica", 10, 10);
+
+            // Datos Personales
+            doc.setFontSize(16);
+            doc.text("Datos Personales", 10, 20);
+            doc.setFontSize(12);
+            let y = 30;
+            const datosPersonales = [
+                { label: "Nombre", value: document.getElementById('nombre').value },
+                { label: "RUT", value: document.getElementById('rut').value },
+                { label: "Fecha de ingreso", value: document.getElementById('fecha_ingreso').value },
+                { label: "Ocupación", value: document.getElementById('ocupacion').value },
+                { label: "Fecha de nacimiento", value: document.getElementById('fecha_nacimiento').value },
+                { label: "Edad", value: document.getElementById('edad').value },
+                { label: "Teléfono", value: document.getElementById('telefono').value },
+                { label: "Correo", value: document.getElementById('correo').value },
+                { label: "Dirección", value: document.getElementById('direccion').value },
+            ];
+            datosPersonales.forEach(item => {
+                doc.text(`${item.label}: ${item.value}`, 10, y);
+                y += 10;
+            });
+
+            // Anamnesis Remota
+            doc.addPage();
+            doc.setFontSize(16);
+            doc.text("Anamnesis Remota", 10, 20);
+            y = 30;
+            const anamnesisRemota = [
+                { label: "Comorbilidades", value: document.getElementById('comorbilidades').value },
+                { label: "Hábitos", value: document.getElementById('habitos').value },
+                { label: "Medicamentos de uso actual", value: document.getElementById('medicamentos').value },
+                { label: "Cirugías", value: document.getElementById('cirugias').value },
+                { label: "Antecedentes familiares", value: document.getElementById('antecedentes_familiares').value },
+            ];
+            anamnesisRemota.forEach(item => {
+                doc.text(item.label, 10, y);
+                const text = doc.splitTextToSize(item.value, 180);
+                doc.text(text, 10, y + 5);
+                y += (text.length * 5) + 10;
+            });
+
+            // Anamnesis Próxima
+            doc.addPage();
+            doc.setFontSize(16);
+            doc.text("Anamnesis Próxima", 10, 20);
+            y = 30;
+            const anamnesisProxima = [
+                { label: "Motivo de consulta", value: document.getElementById('motivo_consulta').value },
+                { label: "Fecha de inicio de síntomas", value: document.getElementById('fecha_inicio_sintomas').value },
+                { label: "Diagnóstico médico", value: document.getElementById('diagnostico_medico').value },
+                { label: "Historia de motivo de consulta", value: document.getElementById('historia_motivo_consulta').value },
+                { label: "EVA", value: document.getElementById('dolor-seleccionado').textContent },
+                { label: "PA", value: document.getElementById('pa').value },
+                { label: "FC", value: document.getElementById('fc').value },
+                { label: "SaO2", value: document.getElementById('sao2').value },
+                { label: "D", value: document.getElementById('d').value },
+                { label: "Palpación", value: document.getElementById('palpacion').value },
+                { label: "ROM", value: document.getElementById('rom').value },
+                { label: "Evaluación funcional", value: document.getElementById('evaluacion_funcional').value },
+                { label: "Evaluación neurológica", value: document.getElementById('evaluacion_neurologica').value },
+                { label: "Pruebas ortopédicas", value: document.getElementById('pruebas_ortopedicas').value },
+            ];
+            anamnesisProxima.forEach(item => {
+                doc.text(item.label, 10, y);
+                const text = doc.splitTextToSize(item.value, 180);
+                doc.text(text, 10, y + 5);
+                y += (text.length * 5) + 10;
+            });
+
+            // Tratamiento
+            doc.addPage();
+            doc.setFontSize(16);
+            doc.text("Tratamiento", 10, 20);
+            y = 30;
+            doc.text("Objetivo general:", 10, y);
+            const objetivoGeneral = doc.splitTextToSize(document.getElementById('objetivo_general').value, 180);
+            doc.text(objetivoGeneral, 10, y + 5);
+            y += (objetivoGeneral.length * 5) + 10;
+            doc.text("Objetivos específicos:", 10, y);
+            const objetivosEspecificos = doc.splitTextToSize(document.getElementById('objetivos_especificos').value, 180);
+            doc.text(objetivosEspecificos, 10, y + 5);
+            y += (objetivosEspecificos.length * 5) + 10;
+
+            const sesiones = [];
+            document.querySelectorAll('.sesion-card').forEach((card, index) => {
+                const fecha = card.querySelector('input[name="sesion_fecha[]"]').value;
+                const evolucion = card.querySelector('textarea[name="sesion_evolucion[]"]').value;
+                const tratamiento = card.querySelector('textarea[name="sesion_tratamiento[]"]').value;
+                sesiones.push([index + 1, fecha, evolucion, tratamiento]);
+            });
+
+            doc.autoTable({
+                head: [['Sesión', 'Fecha', 'Evolución', 'Tratamiento']],
+                body: sesiones,
+                startY: y,
+            });
+
+            doc.save('ficha-clinica.pdf');
+        });
+    }
 });

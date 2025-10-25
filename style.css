@@ -40,3 +40,8 @@ input[type=range].form-range::-ms-track {
     border: none;
     color: transparent;
 }
+
+.sidebar {
+    border-right: 1px solid #dee2e6;
+    padding-right: 15px;
+}
