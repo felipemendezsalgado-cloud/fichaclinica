@@ -2,8 +2,20 @@
     font-weight: bold;
 }
 
+.slider-container {
+    padding: 0 20px; /* Add some padding to prevent labels from touching the edges */
+}
+
 #dolor-slider {
     background: linear-gradient(to right, green, yellow, red);
+    margin-top: 5px; /* Add some space between the label and the slider */
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: #6c757d; /* Bootstrap's secondary text color */
 }
 
 /* For WebKit browsers (Chrome, Safari) */
