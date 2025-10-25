@@ -200,15 +200,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Handle AROM image display
         const aromImg = document.querySelector('#arom_archivo + img');
-        if (data.anamnesisProxima['arom_imagen'] && data.anamnesisProxima['arom_imagen'].startsWith('data:image')) {
-            aromImg.src = data.anamnesisProxima['arom_imagen'];
+        if (data.exploracionAnalitica['arom_imagen'] && data.exploracionAnalitica['arom_imagen'].startsWith('data:image')) {
+            aromImg.src = data.exploracionAnalitica['arom_imagen'];
             aromImg.classList.remove('d-none');
         }
 
         // Handle PROM image display
         const promImg = document.querySelector('#prom_archivo + img');
-        if (data.anamnesisProxima['prom_imagen'] && data.anamnesisProxima['prom_imagen'].startsWith('data:image')) {
-            promImg.src = data.anamnesisProxima['prom_imagen'];
+        if (data.exploracionAnalitica['prom_imagen'] && data.exploracionAnalitica['prom_imagen'].startsWith('data:image')) {
+            promImg.src = data.exploracionAnalitica['prom_imagen'];
             promImg.classList.remove('d-none');
         }
 
@@ -250,6 +250,7 @@ document.addEventListener("DOMContentLoaded", function() {
             datosPersonales: {},
             anamnesisRemota: {},
             anamnesisProxima: {},
+            exploracionAnalitica: {},
             tratamiento: {
                 objetivoGeneral: '',
                 objetivosEspecificos: '',
@@ -273,6 +274,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 case 'anamnesis-proxima':
                     data.anamnesisProxima[id] = el.type === 'checkbox' ? el.checked : el.value;
                     break;
+                case 'exploracion-analitica':
+                    data.exploracionAnalitica[id] = el.type === 'checkbox' ? el.checked : el.value;
+                    break;
                 case 'tratamiento':
                     if (id === 'objetivo_general') data.tratamiento.objetivoGeneral = el.value;
                     if (id === 'objetivos_especificos') data.tratamiento.objetivosEspecificos = el.value;
@@ -294,17 +298,17 @@ document.addEventListener("DOMContentLoaded", function() {
         // Handle AROM image
         const aromImg = document.querySelector('#arom_archivo + img');
         if (aromImg && aromImg.src.startsWith('data:image')) {
-            data.anamnesisProxima['arom_imagen'] = aromImg.src;
+            data.exploracionAnalitica['arom_imagen'] = aromImg.src;
         } else {
-            data.anamnesisProxima['arom_imagen'] = '';
+            data.exploracionAnalitica['arom_imagen'] = '';
         }
 
         // Handle PROM image
         const promImg = document.querySelector('#prom_archivo + img');
         if (promImg && promImg.src.startsWith('data:image')) {
-            data.anamnesisProxima['prom_imagen'] = promImg.src;
+            data.exploracionAnalitica['prom_imagen'] = promImg.src;
         } else {
-            data.anamnesisProxima['prom_imagen'] = '';
+            data.exploracionAnalitica['prom_imagen'] = '';
         }
 
         // Gather session data
