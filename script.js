@@ -289,8 +289,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
         // Populate tratamiento goals
-        document.getElementById('objetivo_general').value = data.tratamiento.objetivoGeneral;
-        document.getElementById('objetivos_especificos').value = data.tratamiento.objetivosEspecificos;
+        if (data.tratamiento) {
+            document.getElementById('diagnostico_kinesico').value = data.tratamiento.diagnosticoKinesico || '';
+            document.getElementById('objetivo_general').value = data.tratamiento.objetivoGeneral || '';
+            document.getElementById('objetivos_especificos').value = data.tratamiento.objetivosEspecificos || '';
+        }
 
         // Recreate sessions
         const sesiones = data.tratamiento.sesiones || [];
@@ -362,6 +365,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 imagenes: []
             },
             tratamiento: {
+                diagnosticoKinesico: '',
                 objetivoGeneral: '',
                 objetivosEspecificos: '',
                 sesiones: []
@@ -388,6 +392,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     data.exploracionAnalitica[id] = el.type === 'checkbox' ? el.checked : el.value;
                     break;
                 case 'tratamiento':
+                    if (id === 'diagnostico_kinesico') data.tratamiento.diagnosticoKinesico = el.value;
                     if (id === 'objetivo_general') data.tratamiento.objetivoGeneral = el.value;
                     if (id === 'objetivos_especificos') data.tratamiento.objetivosEspecificos = el.value;
                     break;
