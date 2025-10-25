@@ -86,6 +86,38 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    const aromArchivoInput = document.getElementById('arom_archivo');
+    if (aromArchivoInput) {
+        aromArchivoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = e.target.nextElementSibling;
+                    img.src = event.target.result;
+                    img.classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    const promArchivoInput = document.getElementById('prom_archivo');
+    if (promArchivoInput) {
+        promArchivoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = e.target.nextElementSibling;
+                    img.src = event.target.result;
+                    img.classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
     const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
     const edadInput = document.getElementById('edad');
 
@@ -202,6 +234,20 @@ document.addEventListener("DOMContentLoaded", function() {
             inspeccionImg.classList.remove('d-none');
         }
 
+        // Handle AROM image display
+        const aromImg = document.querySelector('#arom_archivo + img');
+        if (data.anamnesisProxima['arom_imagen'] && data.anamnesisProxima['arom_imagen'].startsWith('data:image')) {
+            aromImg.src = data.anamnesisProxima['arom_imagen'];
+            aromImg.classList.remove('d-none');
+        }
+
+        // Handle PROM image display
+        const promImg = document.querySelector('#prom_archivo + img');
+        if (data.anamnesisProxima['prom_imagen'] && data.anamnesisProxima['prom_imagen'].startsWith('data:image')) {
+            promImg.src = data.anamnesisProxima['prom_imagen'];
+            promImg.classList.remove('d-none');
+        }
+
 
         // Populate tratamiento goals
         document.getElementById('objetivo_general').value = data.tratamiento.objetivoGeneral;
@@ -279,6 +325,22 @@ document.addEventListener("DOMContentLoaded", function() {
             data.anamnesisProxima['inspeccion_imagen'] = inspeccionImg.src;
         } else {
             data.anamnesisProxima['inspeccion_imagen'] = '';
+        }
+
+        // Handle AROM image
+        const aromImg = document.querySelector('#arom_archivo + img');
+        if (aromImg && aromImg.src.startsWith('data:image')) {
+            data.anamnesisProxima['arom_imagen'] = aromImg.src;
+        } else {
+            data.anamnesisProxima['arom_imagen'] = '';
+        }
+
+        // Handle PROM image
+        const promImg = document.querySelector('#prom_archivo + img');
+        if (promImg && promImg.src.startsWith('data:image')) {
+            data.anamnesisProxima['prom_imagen'] = promImg.src;
+        } else {
+            data.anamnesisProxima['prom_imagen'] = '';
         }
 
         // Gather session data
