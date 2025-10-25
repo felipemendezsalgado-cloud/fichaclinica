@@ -127,65 +127,120 @@
                         <h5 class="card-title">Anamnesis Próxima</h5>
                         <form class="row g-3">
                             <div class="col-12">
-                                <label for="motivo_consulta" class="form-label">Motivo de consulta:</label>
-                                <textarea class="form-control" id="motivo_consulta" name="motivo_consulta" rows="3"></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="fecha_inicio_sintomas" class="form-label">Fecha de inicio de síntomas:</label>
-                                <input type="date" class="form-control" id="fecha_inicio_sintomas" name="fecha_inicio_sintomas">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="diagnostico_medico" class="form-label">Diagnóstico médico:</label>
-                                <input type="text" class="form-control" id="diagnostico_medico" name="diagnostico_medico">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Condición actual</h6>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="motivo_consulta" class="form-label">Motivo de consulta:</label>
+                                                <textarea class="form-control" id="motivo_consulta" name="motivo_consulta" rows="3"></textarea>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="fecha_inicio_sintomas" class="form-label">Fecha de inicio de síntomas:</label>
+                                                <input type="date" class="form-control" id="fecha_inicio_sintomas" name="fecha_inicio_sintomas">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="diagnostico_medico" class="form-label">Diagnóstico médico:</label>
+                                                <input type="text" class="form-control" id="diagnostico_medico" name="diagnostico_medico">
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="historia_motivo_consulta" class="form-label">Historia de motivo de consulta:</label>
+                                                <textarea class="form-control" id="historia_motivo_consulta" name="historia_motivo_consulta" rows="3"></textarea>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Inicio de condición:</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="traumatico" name="inicio_condicion" value="traumatico">
+                                                    <label class="form-check-label" for="traumatico">Traumático</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="sobreuso" name="inicio_condicion" value="sobreuso">
+                                                    <label class="form-check-label" for="sobreuso">Sobreuso</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="insidioso" name="inicio_condicion" value="insidioso">
+                                                    <label class="form-check-label" for="insidioso">Insidioso</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="tratamientos_previos" class="form-label">Tratamientos previos:</label>
+                                                <textarea class="form-control" id="tratamientos_previos" name="tratamientos_previos" rows="3"></textarea>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Terapia farmacológica actual:</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="no_farmacos" name="terapia_farmacologica" value="no">
+                                                    <label class="form-check-label" for="no_farmacos">No</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="analgesicos" name="terapia_farmacologica" value="analgesicos">
+                                                    <label class="form-check-label" for="analgesicos">Analgésicos</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="aines" name="terapia_farmacologica" value="aines">
+                                                    <label class="form-check-label" for="aines">AINEs</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="corticoides" name="terapia_farmacologica" value="corticoides">
+                                                    <label class="form-check-label" for="corticoides">Corticoides</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="anticoagulantes" name="terapia_farmacologica" value="anticoagulantes">
+                                                    <label class="form-check-label" for="anticoagulantes">Anticoagulantes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="otros_farmacos" name="terapia_farmacologica" value="otros">
+                                                    <label class="form-check-label" for="otros_farmacos">Otros</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12">
-                                <label for="historia_motivo_consulta" class="form-label">Historia de motivo de consulta:</label>
-                                <textarea class="form-control" id="historia_motivo_consulta" name="historia_motivo_consulta" rows="3"></textarea>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">Inicio de condición:</label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="traumatico" name="inicio_condicion" value="traumatico">
-                                    <label class="form-check-label" for="traumatico">Traumático</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="sobreuso" name="inicio_condicion" value="sobreuso">
-                                    <label class="form-check-label" for="sobreuso">Sobreuso</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="insidioso" name="inicio_condicion" value="insidioso">
-                                    <label class="form-check-label" for="insidioso">Insidioso</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <label for="tratamientos_previos" class="form-label">Tratamientos previos:</label>
-                                <textarea class="form-control" id="tratamientos_previos" name="tratamientos_previos" rows="3"></textarea>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">Terapia farmacológica actual:</label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="no_farmacos" name="terapia_farmacologica" value="no">
-                                    <label class="form-check-label" for="no_farmacos">No</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="analgesicos" name="terapia_farmacologica" value="analgesicos">
-                                    <label class="form-check-label" for="analgesicos">Analgésicos</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="aines" name="terapia_farmacologica" value="aines">
-                                    <label class="form-check-label" for="aines">AINEs</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="corticoides" name="terapia_farmacologica" value="corticoides">
-                                    <label class="form-check-label" for="corticoides">Corticoides</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="anticoagulantes" name="terapia_farmacologica" value="anticoagulantes">
-                                    <label class="form-check-label" for="anticoagulantes">Anticoagulantes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="otros_farmacos" name="terapia_farmacologica" value="otros">
-                                    <label class="form-check-label" for="otros_farmacos">Otros</label>
+                                <div class="card mt-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Clasificación de dolor</h6>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="nivel_dolor_input" class="form-label">Nivel de dolor:</label>
+                                                <input type="number" class="form-control" id="nivel_dolor_input" name="nivel_dolor">
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="dolor-slider" class="form-label">Barra análoga:</label>
+                                                <input type="range" class="form-range" min="0" max="10" id="dolor-slider">
+                                                <button type="button" id="confirmar-dolor-btn" class="btn btn-primary mt-2">Confirmar</button>
+                                                <p class="mt-2">Nivel de dolor seleccionado: <span id="dolor-seleccionado" class="d-none"></span></p>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Escala verbal:</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="dolor_leve" name="escala_verbal" value="leve">
+                                                    <label class="form-check-label" for="dolor_leve">Dolor leve</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="dolor_moderado" name="escala_verbal" value="moderado">
+                                                    <label class="form-check-label" for="dolor_moderado">Dolor moderado</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="dolor_severo" name="escala_verbal" value="severo">
+                                                    <label class="form-check-label" for="dolor_severo">Dolor severo</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="dolor_insoportable" name="escala_verbal" value="insoportable">
+                                                    <label class="form-check-label" for="dolor_insoportable">Dolor insoportable</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="alivio_dolor" class="form-label">Alivio de dolor:</label>
+                                                <textarea class="form-control" id="alivio_dolor" name="alivio_dolor" rows="2"></textarea>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="agravantes_dolor" class="form-label">Agravantes de dolor:</label>
+                                                <textarea class="form-control" id="agravantes_dolor" name="agravantes_dolor" rows="2"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -207,10 +262,6 @@
                             <div class="col-12">
                                 <label for="palpacion" class="form-label">Palpación:</label>
                                 <textarea class="form-control" id="palpacion" name="palpacion" rows="3"></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="nivel_dolor" class="form-label">Nivel de dolor:</label>
-                                <input type="number" class="form-control" id="nivel_dolor" name="nivel_dolor">
                             </div>
                             <div class="col-md-6">
                                 <label for="rom" class="form-label">ROM:</label>

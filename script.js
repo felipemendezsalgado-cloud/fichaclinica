@@ -65,4 +65,15 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+
+    const confirmarDolorBtn = document.getElementById('confirmar-dolor-btn');
+    const dolorSlider = document.getElementById('dolor-slider');
+    const dolorSeleccionado = document.getElementById('dolor-seleccionado');
+
+    if (confirmarDolorBtn) {
+        confirmarDolorBtn.addEventListener('click', function() {
+            dolorSeleccionado.textContent = dolorSlider.value;
+            dolorSeleccionado.classList.remove('d-none');
+        });
+    }
 });
