@@ -77,4 +77,60 @@ document.addEventListener("DOMContentLoaded", function() {
             dolorSeleccionado.classList.remove('d-none');
         });
     }
+
+    // --- Image Uploader Logic ---
+
+    function handleImagePreview(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            const previewImg = event.target.closest('.image-upload-item').querySelector('.image-preview');
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function addImageUploader(container, prefix) {
+        const newImageDiv = document.createElement('div');
+        newImageDiv.classList.add('col-md-4', 'image-upload-item', 'mb-3');
+        newImageDiv.innerHTML = `
+            <div class="card">
+                <div class="card-body">
+                    <input type="file" class="form-control mb-2" name="${prefix}_imagen[]" accept="image/*">
+                    <textarea class="form-control" name="${prefix}_descripcion[]" rows="2" placeholder="Descripción"></textarea>
+                    <img class="image-preview mt-2" src="#" alt="Vista previa de la imagen" style="display: none; max-width: 100%;">
+                    <button type="button" class="btn btn-danger btn-sm mt-2 remove-imagen-btn">Quitar</button>
+                </div>
+            </div>
+        `;
+        container.appendChild(newImageDiv);
+        newImageDiv.querySelector('input[type="file"]').addEventListener('change', handleImagePreview);
+    }
+
+    const addInspeccionBtn = document.getElementById('add-inspeccion-imagen-btn');
+    const inspeccionContainer = document.getElementById('inspeccion-imagenes-container');
+
+    if (addInspeccionBtn && inspeccionContainer) {
+        addInspeccionBtn.addEventListener('click', function() {
+            addImageUploader(inspeccionContainer, 'inspeccion');
+        });
+    }
+
+    const addEvalFuncionalBtn = document.getElementById('add-evaluacion-funcional-imagen-btn');
+    const evalFuncionalContainer = document.getElementById('evaluacion-funcional-imagenes-container');
+
+    if (addEvalFuncionalBtn && evalFuncionalContainer) {
+        addEvalFuncionalBtn.addEventListener('click', function() {
+            addImageUploader(evalFuncionalContainer, 'evaluacion_funcional');
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-imagen-btn')) {
+            e.target.closest('.image-upload-item').remove();
+        }
+    });
 });
