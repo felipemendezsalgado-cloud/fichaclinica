@@ -186,15 +186,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Handle EVA display
         const dolorSeleccionado = document.getElementById('dolor-seleccionado');
-        if (data.anamnesisProxima['dolor-seleccionado']) {
-            dolorSeleccionado.textContent = data.anamnesisProxima['dolor-seleccionado'];
+        if (data.exploracionGeneral['dolor-seleccionado']) {
+            dolorSeleccionado.textContent = data.exploracionGeneral['dolor-seleccionado'];
             dolorSeleccionado.classList.remove('d-none');
         }
 
         // Handle Inspeccion image display
         const inspeccionImg = document.querySelector('#inspeccion_archivo + img');
-        if (data.anamnesisProxima['inspeccion_imagen'] && data.anamnesisProxima['inspeccion_imagen'].startsWith('data:image')) {
-            inspeccionImg.src = data.anamnesisProxima['inspeccion_imagen'];
+        if (data.exploracionGeneral['inspeccion_imagen'] && data.exploracionGeneral['inspeccion_imagen'].startsWith('data:image')) {
+            inspeccionImg.src = data.exploracionGeneral['inspeccion_imagen'];
             inspeccionImg.classList.remove('d-none');
         }
 
@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const data = {
             datosPersonales: {},
             anamnesisRemota: {},
-            anamnesisProxima: {},
+            exploracionGeneral: {},
             exploracionAnalitica: {},
             tratamiento: {
                 objetivoGeneral: '',
@@ -271,8 +271,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 case 'anamnesis-remota':
                     data.anamnesisRemota[id] = el.type === 'checkbox' ? el.checked : el.value;
                     break;
-                case 'anamnesis-proxima':
-                    data.anamnesisProxima[id] = el.type === 'checkbox' ? el.checked : el.value;
+                case 'exploracion-general':
+                    data.exploracionGeneral[id] = el.type === 'checkbox' ? el.checked : el.value;
                     break;
                 case 'exploracion-analitica':
                     data.exploracionAnalitica[id] = el.type === 'checkbox' ? el.checked : el.value;
@@ -285,14 +285,14 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         // Handle EVA separately
-        data.anamnesisProxima['dolor-seleccionado'] = document.getElementById('dolor-seleccionado').textContent;
+        data.exploracionGeneral['dolor-seleccionado'] = document.getElementById('dolor-seleccionado').textContent;
 
         // Handle Inspeccion image
         const inspeccionImg = document.querySelector('#inspeccion_archivo + img');
         if (inspeccionImg && inspeccionImg.src.startsWith('data:image')) {
-            data.anamnesisProxima['inspeccion_imagen'] = inspeccionImg.src;
+            data.exploracionGeneral['inspeccion_imagen'] = inspeccionImg.src;
         } else {
-            data.anamnesisProxima['inspeccion_imagen'] = '';
+            data.exploracionGeneral['inspeccion_imagen'] = '';
         }
 
         // Handle AROM image
