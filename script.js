@@ -82,6 +82,56 @@ document.addEventListener("DOMContentLoaded", function() {
         sesionesContainer.addEventListener('change', handleImagePreview);
     }
 
+    const imagenesContainer = document.getElementById('imagenes-container');
+    const addImagenBtn = document.getElementById('add-imagen-btn');
+
+    function updateImageNumbers() {
+        const imagenCards = document.querySelectorAll('.imagen-card');
+        imagenCards.forEach((card, index) => {
+            card.querySelector('.card-title').textContent = `Imagen ${index + 1}`;
+        });
+    }
+
+    if (imagenesContainer) {
+        imagenesContainer.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-imagen-btn')) {
+                e.target.closest('.imagen-card').remove();
+                updateImageNumbers();
+            }
+        });
+    }
+
+    if (addImagenBtn) {
+        addImagenBtn.addEventListener('click', function() {
+            const newImagen = document.createElement('div');
+            newImagen.classList.add('card', 'imagen-card', 'mb-3');
+            const newImagenNumber = document.querySelectorAll('.imagen-card').length + 1;
+            newImagen.innerHTML = `
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title mb-0">Imagen ${newImagenNumber}</h6>
+                        <button type="button" class="btn btn-danger btn-sm remove-imagen-btn">Quitar</button>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción:</label>
+                        <textarea class="form-control" name="imagen_descripcion[]" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Importar archivo (PNG o JPG):</label>
+                        <input type="file" class="form-control" name="imagen_archivo[]" accept="image/png, image/jpeg">
+                        <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                    </div>
+                </div>
+            `;
+            imagenesContainer.appendChild(newImagen);
+            updateImageNumbers();
+        });
+    }
+
+    if (imagenesContainer) {
+        imagenesContainer.addEventListener('change', handleImagePreview);
+    }
+
     const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
     const edadInput = document.getElementById('edad');
 
@@ -130,6 +180,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 allSessions[i].remove();
             }
             updateSessionNumbers();
+
+            // Remove all but the first image entry
+            const allImages = imagenesContainer.querySelectorAll('.imagen-card');
+            for (let i = allImages.length - 1; i > 0; i--) {
+                allImages[i].remove();
+            }
+            updateImageNumbers();
         });
     }
 
@@ -243,6 +300,31 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
         updateSessionNumbers();
+
+        // Recreate images
+        const imagenes = data.imagenologia ? data.imagenologia.imagenes || [] : [];
+        const allImageCards = imagenesContainer.querySelectorAll('.imagen-card');
+
+        // Remove all images to start fresh
+        allImageCards.forEach(card => card.remove());
+
+        if (imagenes.length === 0) {
+            addImagenBtn.click(); // Add one empty image entry if there are none in the JSON
+        } else {
+            imagenes.forEach((imagenData, index) => {
+                addImagenBtn.click();
+                const newCard = imagenesContainer.querySelector('.imagen-card:last-child');
+                if (newCard) {
+                    newCard.querySelector('textarea[name="imagen_descripcion[]"]').value = imagenData.descripcion;
+                    const img = newCard.querySelector('img');
+                    if (imagenData.imagen && imagenData.imagen.startsWith('data:image')) {
+                        img.src = imagenData.imagen;
+                        img.classList.remove('d-none');
+                    }
+                }
+            });
+        }
+        updateImageNumbers();
     }
 
     function exportToJson() {
@@ -251,6 +333,9 @@ document.addEventListener("DOMContentLoaded", function() {
             anamnesisRemota: {},
             exploracionGeneral: {},
             exploracionAnalitica: {},
+            imagenologia: {
+                imagenes: []
+            },
             tratamiento: {
                 objetivoGeneral: '',
                 objetivosEspecificos: '',
@@ -320,6 +405,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 imagen: card.querySelector('img').src,
             };
             data.tratamiento.sesiones.push(sesion);
+        });
+
+        // Gather image data
+        document.querySelectorAll('.imagen-card').forEach(card => {
+            const imagen = {
+                descripcion: card.querySelector('textarea[name="imagen_descripcion[]"]').value,
+                imagen: card.querySelector('img').src,
+            };
+            data.imagenologia.imagenes.push(imagen);
         });
 
         const nombre = data.datosPersonales.nombre || "sin-nombre";
