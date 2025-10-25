@@ -82,55 +82,57 @@ document.addEventListener("DOMContentLoaded", function() {
         sesionesContainer.addEventListener('change', handleImagePreview);
     }
 
-    const imagenesContainer = document.getElementById('imagenes-container');
-    const addImagenBtn = document.getElementById('add-imagen-btn');
+    function setupImageUploader(containerId, buttonId, cardClassName, cardTitlePrefix) {
+        const container = document.getElementById(containerId);
+        const addButton = document.getElementById(buttonId);
 
-    function updateImageNumbers() {
-        const imagenCards = document.querySelectorAll('.imagen-card');
-        imagenCards.forEach((card, index) => {
-            card.querySelector('.card-title').textContent = `Imagen ${index + 1}`;
-        });
-    }
+        function updateNumbers() {
+            const cards = container.querySelectorAll(`.${cardClassName}`);
+            cards.forEach((card, index) => {
+                card.querySelector('.card-title').textContent = `${cardTitlePrefix} ${index + 1}`;
+            });
+        }
 
-    if (imagenesContainer) {
-        imagenesContainer.addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove-imagen-btn')) {
-                e.target.closest('.imagen-card').remove();
-                updateImageNumbers();
-            }
-        });
-    }
+        if (container) {
+            container.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-imagen-btn')) {
+                    e.target.closest(`.${cardClassName}`).remove();
+                    updateNumbers();
+                }
+            });
+            container.addEventListener('change', handleImagePreview);
+        }
 
-    if (addImagenBtn) {
-        addImagenBtn.addEventListener('click', function() {
-            const newImagen = document.createElement('div');
-            newImagen.classList.add('card', 'imagen-card', 'mb-3');
-            const newImagenNumber = document.querySelectorAll('.imagen-card').length + 1;
-            newImagen.innerHTML = `
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title mb-0">Imagen ${newImagenNumber}</h6>
-                        <button type="button" class="btn btn-danger btn-sm remove-imagen-btn">Quitar</button>
+        if (addButton) {
+            addButton.addEventListener('click', function() {
+                const newCard = document.createElement('div');
+                newCard.classList.add('card', cardClassName, 'mb-3');
+                const newNumber = container.querySelectorAll(`.${cardClassName}`).length + 1;
+                newCard.innerHTML = `
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="card-title mb-0">${cardTitlePrefix} ${newNumber}</h6>
+                            <button type="button" class="btn btn-danger btn-sm remove-imagen-btn">Quitar</button>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descripción:</label>
+                            <textarea class="form-control" name="${containerId}_descripcion[]" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Importar archivo (PNG o JPG):</label>
+                            <input type="file" class="form-control" name="${containerId}_archivo[]" accept="image/png, image/jpeg">
+                            <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Descripción:</label>
-                        <textarea class="form-control" name="imagen_descripcion[]" rows="2"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Importar archivo (PNG o JPG):</label>
-                        <input type="file" class="form-control" name="imagen_archivo[]" accept="image/png, image/jpeg">
-                        <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
-                    </div>
-                </div>
-            `;
-            imagenesContainer.appendChild(newImagen);
-            updateImageNumbers();
-        });
+                `;
+                container.appendChild(newCard);
+            });
+        }
     }
 
-    if (imagenesContainer) {
-        imagenesContainer.addEventListener('change', handleImagePreview);
-    }
+    setupImageUploader('imagenes-container', 'add-imagen-btn', 'imagen-card', 'Imagen');
+    setupImageUploader('inspeccion-imagenes-container', 'add-inspeccion-imagen-btn', 'inspeccion-imagen-card', 'Imagen de Inspección');
+    setupImageUploader('evaluacion-funcional-imagenes-container', 'add-evaluacion-funcional-imagen-btn', 'evaluacion-funcional-imagen-card', 'Imagen de Exploración Funcional');
 
     const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
     const edadInput = document.getElementById('edad');
@@ -181,13 +183,31 @@ document.addEventListener("DOMContentLoaded", function() {
             }
             updateSessionNumbers();
 
-            // Remove all but the first image entry
-            const allImages = imagenesContainer.querySelectorAll('.imagen-card');
-            for (let i = allImages.length - 1; i > 0; i--) {
-                allImages[i].remove();
-            }
-            updateImageNumbers();
+            // Reset image uploaders
+            resetImageUploader('imagenes-container');
+            resetImageUploader('inspeccion-imagenes-container');
+            resetImageUploader('evaluacion-funcional-imagenes-container');
         });
+    }
+
+    function resetImageUploader(containerId) {
+        const container = document.getElementById(containerId);
+        if (container) {
+            const allCards = container.querySelectorAll('.card');
+            // Remove all but the first card if it exists, otherwise do nothing
+            for (let i = allCards.length - 1; i > 0; i--) {
+                allCards[i].remove();
+            }
+            // Clear the first card's fields
+            if (allCards.length > 0) {
+                const firstCard = allCards[0];
+                firstCard.querySelector('textarea').value = '';
+                const img = firstCard.querySelector('img');
+                img.src = '';
+                img.classList.add('d-none');
+                firstCard.querySelector('input[type="file"]').value = '';
+            }
+        }
     }
 
     const exportarJsonBtn = document.getElementById('exportar-json-btn');
@@ -248,12 +268,10 @@ document.addEventListener("DOMContentLoaded", function() {
             dolorSeleccionado.classList.remove('d-none');
         }
 
-        // Handle Inspeccion image display
-        const inspeccionImg = document.querySelector('#inspeccion_archivo + img');
-        if (data.exploracionGeneral['inspeccion_imagen'] && data.exploracionGeneral['inspeccion_imagen'].startsWith('data:image')) {
-            inspeccionImg.src = data.exploracionGeneral['inspeccion_imagen'];
-            inspeccionImg.classList.remove('d-none');
-        }
+        // Recreate image uploaders
+        recreateImageUploader('imagenes-container', data.imagenologia.imagenes, 'add-imagen-btn');
+        recreateImageUploader('inspeccion-imagenes-container', data.exploracionGeneral.inspeccionImagenes, 'add-inspeccion-imagen-btn');
+        recreateImageUploader('evaluacion-funcional-imagenes-container', data.exploracionGeneral.evaluacionFuncionalImagenes, 'add-evaluacion-funcional-imagen-btn');
 
         // Handle AROM image display
         const aromImg = document.querySelector('#arom_archivo + img');
@@ -301,30 +319,37 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         updateSessionNumbers();
 
-        // Recreate images
-        const imagenes = data.imagenologia ? data.imagenologia.imagenes || [] : [];
-        const allImageCards = imagenesContainer.querySelectorAll('.imagen-card');
+        // This function is no longer needed as the logic is handled by recreateImageUploader
+    }
 
-        // Remove all images to start fresh
-        allImageCards.forEach(card => card.remove());
+    function recreateImageUploader(containerId, imagesData, addButtonId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
 
-        if (imagenes.length === 0) {
-            addImagenBtn.click(); // Add one empty image entry if there are none in the JSON
-        } else {
-            imagenes.forEach((imagenData, index) => {
-                addImagenBtn.click();
-                const newCard = imagenesContainer.querySelector('.imagen-card:last-child');
+        // Remove all existing cards to start fresh
+        const allCards = container.querySelectorAll('.card');
+        allCards.forEach(card => card.remove());
+
+        const addButton = document.getElementById(addButtonId);
+        if (imagesData && imagesData.length > 0) {
+            imagesData.forEach(imageData => {
+                if (addButton) addButton.click();
+                const newCard = container.querySelector('.card:last-child');
                 if (newCard) {
-                    newCard.querySelector('textarea[name="imagen_descripcion[]"]').value = imagenData.descripcion;
+                    newCard.querySelector('textarea').value = imageData.descripcion;
                     const img = newCard.querySelector('img');
-                    if (imagenData.imagen && imagenData.imagen.startsWith('data:image')) {
-                        img.src = imagenData.imagen;
+                    if (imageData.imagen && imageData.imagen.startsWith('data:image')) {
+                        img.src = imageData.imagen;
                         img.classList.remove('d-none');
                     }
                 }
             });
+        } else {
+            // If there's no data, ensure there is at least one empty card
+            if (addButton && container.children.length === 0) {
+                addButton.click();
+            }
         }
-        updateImageNumbers();
     }
 
     function exportToJson() {
@@ -372,13 +397,10 @@ document.addEventListener("DOMContentLoaded", function() {
         // Handle EVA separately
         data.exploracionGeneral['dolor-seleccionado'] = document.getElementById('dolor-seleccionado').textContent;
 
-        // Handle Inspeccion image
-        const inspeccionImg = document.querySelector('#inspeccion_archivo + img');
-        if (inspeccionImg && inspeccionImg.src.startsWith('data:image')) {
-            data.exploracionGeneral['inspeccion_imagen'] = inspeccionImg.src;
-        } else {
-            data.exploracionGeneral['inspeccion_imagen'] = '';
-        }
+        // Gather image data from all uploaders
+        data.imagenologia.imagenes = gatherImageData('imagenes-container');
+        data.exploracionGeneral.inspeccionImagenes = gatherImageData('inspeccion-imagenes-container');
+        data.exploracionGeneral.evaluacionFuncionalImagenes = gatherImageData('evaluacion-funcional-imagenes-container');
 
         // Handle AROM image
         const aromImg = document.querySelector('#arom_archivo + img');
@@ -407,15 +429,6 @@ document.addEventListener("DOMContentLoaded", function() {
             data.tratamiento.sesiones.push(sesion);
         });
 
-        // Gather image data
-        document.querySelectorAll('.imagen-card').forEach(card => {
-            const imagen = {
-                descripcion: card.querySelector('textarea[name="imagen_descripcion[]"]').value,
-                imagen: card.querySelector('img').src,
-            };
-            data.imagenologia.imagenes.push(imagen);
-        });
-
         const nombre = data.datosPersonales.nombre || "sin-nombre";
         const fecha = new Date().toISOString().slice(0, 10);
         const filename = `ficha-clinica-${nombre}-${fecha}.json`;
@@ -426,5 +439,20 @@ document.addEventListener("DOMContentLoaded", function() {
         link.download = filename;
         link.click();
         URL.revokeObjectURL(link.href);
+    }
+
+    function gatherImageData(containerId) {
+        const images = [];
+        const container = document.getElementById(containerId);
+        if (container) {
+            container.querySelectorAll('.card').forEach(card => {
+                const imageData = {
+                    descripcion: card.querySelector('textarea').value,
+                    imagen: card.querySelector('img').src,
+                };
+                images.push(imageData);
+            });
+        }
+        return images;
     }
 });
