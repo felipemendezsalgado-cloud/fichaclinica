@@ -231,12 +231,22 @@ document.addEventListener("DOMContentLoaded", function() {
             sesiones.push([index + 1, fecha, evolucion, tratamiento]);
 
             const img = card.querySelector('img');
-            if (img && img.src) {
+            if (img && img.src && img.naturalWidth > 0) {
                 try {
-                    doc.addImage(img.src, 'JPEG', 10, y, 180, 100);
-                    y += 110;
+                    const maxWidth = 180; // Max width for the image to fit the page
+                    const aspectRatio = img.naturalHeight / img.naturalWidth;
+                    const newHeight = maxWidth * aspectRatio;
+
+                    // Check if there is enough space on the page, otherwise add a new page
+                    if (y + newHeight > 280) { // A4 height is 297, leave some margin
+                        doc.addPage();
+                        y = 20; // Reset Y position for the new page
+                    }
+
+                    doc.addImage(img.src, 'JPEG', 10, y, maxWidth, newHeight);
+                    y += newHeight + 10; // Move Y down by the new height + a margin
                 } catch (e) {
-                    console.error(e);
+                    console.error("Error adding image to PDF:", e);
                 }
             }
         });
