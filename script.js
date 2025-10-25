@@ -41,10 +41,32 @@ document.addEventListener("DOMContentLoaded", function() {
                         <label class="form-label">Tratamiento:</label>
                         <textarea class="form-control" name="sesion_tratamiento[]" rows="2"></textarea>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Importar archivo (PNG o JPG):</label>
+                        <input type="file" class="form-control" name="sesion_archivo[]" accept="image/png, image/jpeg">
+                        <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                    </div>
                 </div>
             `;
             sesionesContainer.appendChild(newSession);
             updateSessionNumbers();
+        });
+    }
+
+    if (sesionesContainer) {
+        sesionesContainer.addEventListener('change', function(e) {
+            if (e.target.matches('input[type="file"][name="sesion_archivo[]"]')) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = e.target.nextElementSibling;
+                        img.src = event.target.result;
+                        img.classList.remove('d-none');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
         });
     }
 
@@ -99,9 +121,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    const exportarBtn = document.getElementById('exportar-btn');
-    if (exportarBtn) {
-        exportarBtn.addEventListener('click', function() {
+    const exportarPdfBtn = document.getElementById('exportar-pdf-btn');
+    if (exportarPdfBtn) {
+        exportarPdfBtn.addEventListener('click', function() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
@@ -197,6 +219,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 const evolucion = card.querySelector('textarea[name="sesion_evolucion[]"]').value;
                 const tratamiento = card.querySelector('textarea[name="sesion_tratamiento[]"]').value;
                 sesiones.push([index + 1, fecha, evolucion, tratamiento]);
+
+                const img = card.querySelector('img');
+                if (img && img.src) {
+                    try {
+                        doc.addImage(img.src, 'JPEG', 10, y, 180, 100);
+                        y += 110;
+                    } catch (e) {
+                        console.error(e);
+                    }
+                }
             });
 
             doc.autoTable({
@@ -206,6 +238,80 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             doc.save('ficha-clinica.pdf');
+        });
+    }
+
+    const exportarExcelBtn = document.getElementById('exportar-excel-btn');
+    if (exportarExcelBtn) {
+        exportarExcelBtn.addEventListener('click', function() {
+            const data = [];
+
+            // Datos Personales
+            const datosPersonales = {
+                "Sheet 1": [
+                    { "Nombre": document.getElementById('nombre').value },
+                    { "RUT": document.getElementById('rut').value },
+                    { "Fecha de ingreso": document.getElementById('fecha_ingreso').value },
+                    { "Ocupación": document.getElementById('ocupacion').value },
+                    { "Fecha de nacimiento": document.getElementById('fecha_nacimiento').value },
+                    { "Edad": document.getElementById('edad').value },
+                    { "Teléfono": document.getElementById('telefono').value },
+                    { "Correo": document.getElementById('correo').value },
+                    { "Dirección": document.getElementById('direccion').value },
+                ]
+            };
+            data.push(datosPersonales);
+
+            // Anamnesis Remota
+            const anamnesisRemota = {
+                "Sheet 2": [
+                    { "Comorbilidades": document.getElementById('comorbilidades').value },
+                    { "Hábitos": document.getElementById('habitos').value },
+                    { "Medicamentos de uso actual": document.getElementById('medicamentos').value },
+                    { "Cirugías": document.getElementById('cirugias').value },
+                    { "Antecedentes familiares": document.getElementById('antecedentes_familiares').value },
+                ]
+            };
+            data.push(anamnesisRemota);
+
+            // Anamnesis Próxima
+            const anamnesisProxima = {
+                "Sheet 3": [
+                    { "Motivo de consulta": document.getElementById('motivo_consulta').value },
+                    { "Fecha de inicio de síntomas": document.getElementById('fecha_inicio_sintomas').value },
+                    { "Diagnóstico médico": document.getElementById('diagnostico_medico').value },
+                    { "Historia de motivo de consulta": document.getElementById('historia_motivo_consulta').value },
+                    { "EVA": document.getElementById('dolor-seleccionado').textContent },
+                    { "PA": document.getElementById('pa').value },
+                    { "FC": document.getElementById('fc').value },
+                    { "SaO2": document.getElementById('sao2').value },
+                    { "D": document.getElementById('d').value },
+                    { "Palpación": document.getElementById('palpacion').value },
+                    { "ROM": document.getElementById('rom').value },
+                    { "Evaluación funcional": document.getElementById('evaluacion_funcional').value },
+                    { "Evaluación neurológica": document.getElementById('evaluacion_neurologica').value },
+                    { "Pruebas ortopédicas": document.getElementById('pruebas_ortopedicas').value },
+                ]
+            };
+            data.push(anamnesisProxima);
+
+            // Tratamiento
+            const tratamiento = {
+                "Sheet 4": [
+                    { "Objetivo general": document.getElementById('objetivo_general').value },
+                    { "Objetivos específicos": document.getElementById('objetivos_especificos').value },
+                ]
+            };
+            document.querySelectorAll('.sesion-card').forEach((card, index) => {
+                const sesion = {};
+                sesion[`Sesión ${index + 1} - Fecha`] = card.querySelector('input[name="sesion_fecha[]"]').value;
+                sesion[`Sesión ${index + 1} - Evolución`] = card.querySelector('textarea[name="sesion_evolucion[]"]').value;
+                sesion[`Sesión ${index + 1} - Tratamiento`] = card.querySelector('textarea[name="sesion_tratamiento[]"]').value;
+                tratamiento["Sheet 4"].push(sesion);
+            });
+            data.push(tratamiento);
+
+            $().excelExport(data, 'ficha-clinica.xls');
         });
     }
 });
