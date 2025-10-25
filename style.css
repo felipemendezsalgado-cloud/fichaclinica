@@ -40,3 +40,28 @@ input[type=range].form-range::-ms-track {
     border: none;
     color: transparent;
 }
+
+#body-canvas {
+    cursor: crosshair;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+
+.legend-item {
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.color-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    margin-right: 8px;
+    transition: transform 0.2s;
+}
+
+.color-box.selected {
+    border-color: #000;
+    transform: scale(1.2);
+}

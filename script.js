@@ -77,4 +77,77 @@ document.addEventListener("DOMContentLoaded", function() {
             dolorSeleccionado.classList.remove('d-none');
         });
     }
+
+    const canvas = document.getElementById('body-canvas');
+    const legendContainer = document.getElementById('color-legend');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    let currentColor = '#c00000';
+
+    const colors = [
+        { color: '#c00000', label: 'Dolor agudo, sensación de puñalada' },
+        { color: '#ffc000', label: 'Dolor difuso, difícil de localizar' },
+        { color: '#0070c0', label: 'Sensación de calor o frío' },
+        { color: '#00b050', label: 'Sensación de hormigueo o pinchazo de aguja' },
+        { color: '#000000', label: 'Anestesia o disminución de sensibilidad' },
+        { color: '#bf4e14', label: 'Sensación de rigidez, fatiga o cansancio' }
+    ];
+
+    colors.forEach(item => {
+        const legendItem = document.createElement('div');
+        legendItem.classList.add('legend-item', 'd-flex', 'align-items-center', 'me-3', 'mb-2');
+        legendItem.innerHTML = `<div class="color-box" style="background-color: ${item.color};"></div><span>${item.label}</span>`;
+        legendItem.addEventListener('click', () => {
+            currentColor = item.color;
+            document.querySelectorAll('.color-box').forEach(box => box.classList.remove('selected'));
+            legendItem.querySelector('.color-box').classList.add('selected');
+        });
+        legendContainer.appendChild(legendItem);
+    });
+
+    // Select the first color by default
+    legendContainer.querySelector('.color-box').classList.add('selected');
+
+    const bodyImage = new Image();
+    bodyImage.src = 'cuerpo.png';
+    bodyImage.onload = () => {
+        canvas.width = bodyImage.width;
+        canvas.height = bodyImage.height;
+        ctx.drawImage(bodyImage, 0, 0);
+    };
+
+    function getMousePos(canvas, evt) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+            x: (evt.clientX - rect.left) * (canvas.width / rect.width),
+            y: (evt.clientY - rect.top) * (canvas.height / rect.height)
+        };
+    }
+
+    function startDrawing(e) {
+        drawing = true;
+        draw(e);
+    }
+
+    function stopDrawing() {
+        drawing = false;
+        ctx.beginPath();
+    }
+
+    function draw(e) {
+        if (!drawing) return;
+        const pos = getMousePos(canvas, e);
+        ctx.lineWidth = 5;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = currentColor;
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+    }
+
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseleave', stopDrawing);
 });
