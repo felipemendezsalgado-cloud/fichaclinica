@@ -132,6 +132,51 @@ document.addEventListener("DOMContentLoaded", function() {
         imagenesContainer.addEventListener('change', handleImagePreview);
     }
 
+    const descripcionDolorImagenesContainer = document.getElementById('descripcion-dolor-imagenes-container');
+    const addDescripcionDolorImagenBtn = document.getElementById('add-descripcion-dolor-imagen-btn');
+
+    function setupImageUploader(container, addButton, cardClass, titlePrefix) {
+        function updateNumbers() {
+            const cards = container.querySelectorAll(`.${cardClass}`);
+            cards.forEach((card, index) => {
+                card.querySelector('.card-title').textContent = `${titlePrefix} ${index + 1}`;
+            });
+        }
+
+        container.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-imagen-btn')) {
+                e.target.closest(`.${cardClass}`).remove();
+                updateNumbers();
+            }
+        });
+
+        addButton.addEventListener('click', function() {
+            const newImage = document.createElement('div');
+            newImage.classList.add('card', cardClass, 'mb-3');
+            const newNumber = container.querySelectorAll(`.${cardClass}`).length + 1;
+            newImage.innerHTML = `
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title mb-0">${titlePrefix} ${newNumber}</h6>
+                        <button type="button" class="btn btn-danger btn-sm remove-imagen-btn">Quitar</button>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Importar archivo (PNG o JPG):</label>
+                        <input type="file" class="form-control" name="${cardClass}_archivo[]" accept="image/png, image/jpeg">
+                        <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                    </div>
+                </div>
+            `;
+            container.appendChild(newImage);
+            updateNumbers();
+        });
+
+        container.addEventListener('change', handleImagePreview);
+    }
+    if (descripcionDolorImagenesContainer && addDescripcionDolorImagenBtn) {
+        setupImageUploader(descripcionDolorImagenesContainer, addDescripcionDolorImagenBtn, 'descripcion-dolor-imagen-card', 'Imagen');
+    }
+
     const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
     const edadInput = document.getElementById('edad');
 
@@ -301,17 +346,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         updateSessionNumbers();
 
-        // Recreate images
+        // Recreate images for "Imagenología"
         const imagenes = data.imagenologia ? data.imagenologia.imagenes || [] : [];
         const allImageCards = imagenesContainer.querySelectorAll('.imagen-card');
-
-        // Remove all images to start fresh
         allImageCards.forEach(card => card.remove());
-
-        if (imagenes.length === 0) {
-            addImagenBtn.click(); // Add one empty image entry if there are none in the JSON
-        } else {
-            imagenes.forEach((imagenData, index) => {
+        if (imagenes.length > 0) {
+            imagenes.forEach((imagenData) => {
                 addImagenBtn.click();
                 const newCard = imagenesContainer.querySelector('.imagen-card:last-child');
                 if (newCard) {
@@ -325,6 +365,24 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
         updateImageNumbers();
+
+        // Recreate images for "Descripción del dolor"
+        const descripcionDolorImagenes = data.exploracionGeneral.descripcionDolorImagenes || [];
+        const allDescripcionDolorImageCards = descripcionDolorImagenesContainer.querySelectorAll('.descripcion-dolor-imagen-card');
+        allDescripcionDolorImageCards.forEach(card => card.remove());
+        if (descripcionDolorImagenes.length > 0) {
+            descripcionDolorImagenes.forEach((imagenData) => {
+                addDescripcionDolorImagenBtn.click();
+                const newCard = descripcionDolorImagenesContainer.querySelector('.descripcion-dolor-imagen-card:last-child');
+                if (newCard) {
+                    const img = newCard.querySelector('img');
+                    if (imagenData.imagen && imagenData.imagen.startsWith('data:image')) {
+                        img.src = imagenData.imagen;
+                        img.classList.remove('d-none');
+                    }
+                }
+            });
+        }
     }
 
     function exportToJson() {
@@ -407,13 +465,22 @@ document.addEventListener("DOMContentLoaded", function() {
             data.tratamiento.sesiones.push(sesion);
         });
 
-        // Gather image data
-        document.querySelectorAll('.imagen-card').forEach(card => {
+        // Gather image data for "Imagenología"
+        document.querySelectorAll('#imagenes-container .imagen-card').forEach(card => {
             const imagen = {
                 descripcion: card.querySelector('textarea[name="imagen_descripcion[]"]').value,
                 imagen: card.querySelector('img').src,
             };
             data.imagenologia.imagenes.push(imagen);
+        });
+
+        // Gather image data for "Descripción del dolor"
+        data.exploracionGeneral.descripcionDolorImagenes = [];
+        document.querySelectorAll('#descripcion-dolor-imagenes-container .descripcion-dolor-imagen-card').forEach(card => {
+            const imagen = {
+                imagen: card.querySelector('img').src,
+            };
+            data.exploracionGeneral.descripcionDolorImagenes.push(imagen);
         });
 
         const nombre = data.datosPersonales.nombre || "sin-nombre";
