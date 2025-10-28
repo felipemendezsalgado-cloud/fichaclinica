@@ -497,18 +497,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const controlMedicoSiRadio = document.getElementById('control_medico_si');
     const controlMedicoNoRadio = document.getElementById('control_medico_no');
-    const controlMedicoDescripcion = document.getElementById('control_medico_descripcion');
+    const controlMedicoDetalles = document.getElementById('control_medico_detalles');
 
-    if (controlMedicoSiRadio && controlMedicoNoRadio && controlMedicoDescripcion) {
+    if (controlMedicoSiRadio && controlMedicoNoRadio && controlMedicoDetalles) {
         controlMedicoSiRadio.addEventListener('change', function() {
             if (this.checked) {
-                controlMedicoDescripcion.classList.remove('d-none');
+                controlMedicoDetalles.classList.remove('d-none');
             }
         });
 
         controlMedicoNoRadio.addEventListener('change', function() {
             if (this.checked) {
-                controlMedicoDescripcion.classList.add('d-none');
+                controlMedicoDetalles.classList.add('d-none');
             }
         });
     }

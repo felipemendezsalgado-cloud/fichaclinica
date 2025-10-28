@@ -282,18 +282,28 @@
                             <div class="mb-3">
                                 <label class="form-label d-block">Control médico asociado a comorbilidades:</label>
                                 <div class="row">
-                                    <div class="col-auto">
+                                    <div class="col-auto align-self-center">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="control_medico" id="control_medico_si" value="si">
                                             <label class="form-check-label" for="control_medico_si">Sí</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="control_medico" id="control_medico_no" value="no">
+                                            <input class="form-check-input" type="radio" name="control_medico" id="control_medico_no" value="no" checked>
                                             <label class="form-check-label" for="control_medico_no">No</label>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <textarea class="form-control d-none" id="control_medico_descripcion" name="control_medico_descripcion" placeholder="Especifique..." rows="1"></textarea>
+                                        <div id="control_medico_detalles" class="d-none">
+                                            <textarea class="form-control" id="control_medico_descripcion" name="control_medico_descripcion" placeholder="Especifique..." rows="1"></textarea>
+                                            <div class="row mt-2 align-items-center">
+                                                <div class="col-md-auto">
+                                                    <label for="fecha_ultimo_control" class="col-form-label">Fecha aproximada del último control médico:</label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" class="form-control" id="fecha_ultimo_control" name="fecha_ultimo_control">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
