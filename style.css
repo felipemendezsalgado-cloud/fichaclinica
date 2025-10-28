@@ -70,8 +70,17 @@ body {
     border: 1px solid var(--primary-green);
     padding: 20px;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 150px;
     width: 100%;
+}
+
+.banner-title {
+    color: var(--dark-green);
+    font-weight: bold;
+    text-align: center;
 }
 
 .nav-tabs .nav-link {
