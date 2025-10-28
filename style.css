@@ -111,6 +111,23 @@ body {
     border-color: var(--dark-green);
 }
 
+/* PSEQ Questionnaire Styles */
+.pseq-question {
+    margin-bottom: 1rem;
+}
+
+.pseq-options {
+    gap: 0.75rem; /* Space out the radio buttons */
+}
+
+.pseq-options .form-check-label {
+    padding-left: 0.25rem;
+}
+
+.pseq-options .form-check-inline {
+    margin-right: 0.5rem; /* Adjust spacing between options */
+}
+
 .btn-success {
     background-color: var(--primary-green);
     border-color: var(--primary-green);

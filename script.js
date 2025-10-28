@@ -604,4 +604,28 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+
+    function setupPseq() {
+        const pseqInputs = document.querySelectorAll('input[name^="pseq_"]');
+        const pseqTotal = document.getElementById('pseq_total');
+
+        if (!pseqTotal || pseqInputs.length === 0) return;
+
+        function calculatePseqTotal() {
+            let total = 0;
+            for (let i = 1; i <= 10; i++) {
+                const selected = document.querySelector(`input[name="pseq_${i}"]:checked`);
+                if (selected) {
+                    total += parseInt(selected.value, 10);
+                }
+            }
+            pseqTotal.value = total;
+        }
+
+        pseqInputs.forEach(input => {
+            input.addEventListener('change', calculatePseqTotal);
+        });
+    }
+
+    setupPseq();
 });
