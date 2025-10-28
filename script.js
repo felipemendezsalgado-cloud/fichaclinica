@@ -200,6 +200,12 @@ document.addEventListener("DOMContentLoaded", function() {
         setupImageUploader(descripcionDolorImagenesContainer, addDescripcionDolorImagenBtn, 'descripcion-dolor-imagen-card', 'Imagen');
     }
 
+    const evaluacionFuncionalImagenesContainer = document.getElementById('evaluacion-funcional-imagenes-container');
+    const addEvaluacionFuncionalImagenBtn = document.getElementById('add-evaluacion-funcional-imagen-btn');
+    if (evaluacionFuncionalImagenesContainer && addEvaluacionFuncionalImagenBtn) {
+        setupImageUploader(evaluacionFuncionalImagenesContainer, addEvaluacionFuncionalImagenBtn, 'evaluacion-funcional-imagen-card', 'Imagen');
+    }
+
     const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
     const edadInput = document.getElementById('edad');
 
@@ -424,6 +430,23 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
         }
+        // Recreate images for "Evaluación funcional"
+        const evaluacionFuncionalImagenes = data.exploracionGeneral.evaluacionFuncionalImagenes || [];
+        const allEvaluacionFuncionalImageCards = evaluacionFuncionalImagenesContainer.querySelectorAll('.evaluacion-funcional-imagen-card');
+        allEvaluacionFuncionalImageCards.forEach(card => card.remove());
+        if (evaluacionFuncionalImagenes.length > 0) {
+            evaluacionFuncionalImagenes.forEach((imagenData) => {
+                addEvaluacionFuncionalImagenBtn.click();
+                const newCard = evaluacionFuncionalImagenesContainer.querySelector('.evaluacion-funcional-imagen-card:last-child');
+                if (newCard) {
+                    const img = newCard.querySelector('img');
+                    if (imagenData.imagen && imagenData.imagen.startsWith('data:image')) {
+                        img.src = imagenData.imagen;
+                        img.classList.remove('d-none');
+                    }
+                }
+            });
+        }
     }
 
     function exportToJson() {
@@ -530,6 +553,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 imagen: card.querySelector('img').src,
             };
             data.exploracionGeneral.descripcionDolorImagenes.push(imagen);
+        });
+
+        // Gather image data for "Evaluación funcional"
+        data.exploracionGeneral.evaluacionFuncionalImagenes = [];
+        document.querySelectorAll('#evaluacion-funcional-imagenes-container .evaluacion-funcional-imagen-card').forEach(card => {
+            const imagen = {
+                imagen: card.querySelector('img').src,
+            };
+            data.exploracionGeneral.evaluacionFuncionalImagenes.push(imagen);
         });
 
         // Gather canal semicircular data
