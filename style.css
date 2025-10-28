@@ -1,3 +1,11 @@
+:root {
+    --primary-green: #4CAF50; /* A vibrant, grassy green */
+    --light-green: #E8F5E9;   /* A very light green, for backgrounds */
+    --dark-green: #388E3C;    /* A darker green for accents and hover states */
+    --white: #FFFFFF;
+    --text-color: #333;
+}
+
 #dolor-seleccionado {
     font-weight: bold;
 }
@@ -46,16 +54,69 @@ input[type=range].form-range::-ms-track {
     margin-bottom: 1rem;
 }
 
+body {
+    background-color: var(--light-green);
+    color: var(--text-color);
+}
+
 .sidebar {
-    border-right: 1px solid #dee2e6;
-    padding-right: 15px;
+    background-color: var(--white);
+    border-right: 1px solid var(--primary-green);
+    padding: 20px;
 }
 
 #banner-container {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    background-color: var(--white);
+    border: 1px solid var(--primary-green);
     padding: 20px;
     margin-bottom: 20px;
     height: 150px;
     width: 100%;
+}
+
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    color: var(--primary-green);
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: var(--dark-green);
+    background-color: var(--white);
+    border-color: var(--primary-green) var(--primary-green) var(--white);
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: var(--light-green) var(--light-green) var(--primary-green);
+}
+
+.btn-primary {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-primary:hover {
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+}
+
+.btn-success {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-success:hover {
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+}
+
+.btn-info {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-info:hover {
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
 }
