@@ -493,6 +493,7 @@
                                                 <div class="card mt-3">
                                                     <div class="card-body">
                                                         <h6 class="card-title">Cuestionario de Autoeficacia para el dolor (PSEQ)</h6>
+                                                        <p class="card-subtitle mb-2 text-muted">Recuerda, no se pregunta si puede o no hacer las cosas, sino que tan seguro está para hacerlo a pesar del dolor actual.</p>
                                                         <p class="card-subtitle mb-2 text-muted">0 = Nada seguro, 6 = Totalmente seguro</p>
 
                                                         <!-- Pregunta 1 -->
@@ -776,9 +777,12 @@
                                                         </div>
 
                                                         <!-- Total Score -->
-                                                        <div class="mt-4">
-                                                            <label for="pseq_total" class="form-label"><strong>Puntaje Total:</strong></label>
-                                                            <input type="text" class="form-control" id="pseq_total" name="pseq_total" readonly style="width: 100px;">
+                                                        <div class="mt-4 d-flex align-items-center">
+                                                            <div>
+                                                                <label for="pseq_total" class="form-label mb-0"><strong>Puntaje Total:</strong></label>
+                                                                <input type="text" class="form-control" id="pseq_total" name="pseq_total" readonly style="width: 100px;">
+                                                            </div>
+                                                            <button type="button" id="pseq_reset_btn" class="btn btn-secondary ms-3">Reiniciar cuestionario</button>
                                                         </div>
                                                     </div>
                                                 </div>

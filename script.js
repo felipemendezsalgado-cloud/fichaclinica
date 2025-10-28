@@ -608,6 +608,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function setupPseq() {
         const pseqInputs = document.querySelectorAll('input[name^="pseq_"]');
         const pseqTotal = document.getElementById('pseq_total');
+        const pseqResetBtn = document.getElementById('pseq_reset_btn');
 
         if (!pseqTotal || pseqInputs.length === 0) return;
 
@@ -625,6 +626,15 @@ document.addEventListener("DOMContentLoaded", function() {
         pseqInputs.forEach(input => {
             input.addEventListener('change', calculatePseqTotal);
         });
+
+        if (pseqResetBtn) {
+            pseqResetBtn.addEventListener('click', () => {
+                pseqInputs.forEach(input => {
+                    input.checked = false;
+                });
+                calculatePseqTotal(); // Recalculate to set total to 0
+            });
+        }
     }
 
     setupPseq();
