@@ -79,6 +79,7 @@ body {
     border-top-left-radius: .25rem;
     border-top-right-radius: .25rem;
     color: var(--primary-green);
+    font-weight: bold;
 }
 
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
