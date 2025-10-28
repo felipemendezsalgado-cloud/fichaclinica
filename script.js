@@ -9,6 +9,29 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    const canalesTbody = document.getElementById('canales-semicirculares-tbody');
+    const addCanalRowBtn = document.getElementById('add-canal-row-btn');
+
+    if (canalesTbody && addCanalRowBtn) {
+        addCanalRowBtn.addEventListener('click', function() {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" class="form-control" name="canal_semicircular[]"></td>
+                <td><input type="text" class="form-control" name="ng[]"></td>
+                <td><input type="text" class="form-control" name="direccion[]"></td>
+                <td><input type="text" class="form-control" name="duracion[]"></td>
+                <td><button type="button" class="btn btn-danger btn-sm remove-canal-row-btn">Quitar</button></td>
+            `;
+            canalesTbody.appendChild(newRow);
+        });
+
+        canalesTbody.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-canal-row-btn')) {
+                e.target.closest('tr').remove();
+            }
+        });
+    }
+
     if (sesionesContainer) {
         sesionesContainer.addEventListener('click', function(e) {
             if (e.target.classList.contains('remove-session-btn')) {
@@ -383,6 +406,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
         }
+
+        // Recreate canal semicircular rows
+        const canalesData = data.exploracionVestibular ? data.exploracionVestibular.canalesSemicirculares || [] : [];
+        const canalesTbody = document.getElementById('canales-semicirculares-tbody');
+        canalesTbody.innerHTML = ''; // Clear existing rows
+
+        if (canalesData.length > 0) {
+            canalesData.forEach(canalData => {
+                addCanalRowBtn.click();
+                const newRow = canalesTbody.querySelector('tr:last-child');
+                if (newRow) {
+                    newRow.querySelector('input[name="canal_semicircular[]"]').value = canalData.canal;
+                    newRow.querySelector('input[name="ng[]"]').value = canalData.ng;
+                    newRow.querySelector('input[name="direccion[]"]').value = canalData.direccion;
+                    newRow.querySelector('input[name="duracion[]"]').value = canalData.duracion;
+                }
+            });
+        }
     }
 
     function exportToJson() {
@@ -391,6 +432,9 @@ document.addEventListener("DOMContentLoaded", function() {
             anamnesisRemota: {},
             exploracionGeneral: {},
             exploracionAnalitica: {},
+            exploracionVestibular: {
+                canalesSemicirculares: []
+            },
             imagenologia: {
                 imagenes: []
             },
@@ -419,6 +463,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     break;
                 case 'exploracion-analitica':
                     data.exploracionAnalitica[id] = el.type === 'checkbox' ? el.checked : el.value;
+                    break;
+                case 'exploracion-vestibular':
+                    if (!data.exploracionVestibular[id]) { // Check to avoid overwriting table data
+                        data.exploracionVestibular[id] = el.value;
+                    }
                     break;
                 case 'tratamiento':
                     if (id === 'objetivo_general') data.tratamiento.objetivoGeneral = el.value;
@@ -481,6 +530,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 imagen: card.querySelector('img').src,
             };
             data.exploracionGeneral.descripcionDolorImagenes.push(imagen);
+        });
+
+        // Gather canal semicircular data
+        document.querySelectorAll('#canales-semicirculares-tbody tr').forEach(row => {
+            const canal = {
+                canal: row.querySelector('input[name="canal_semicircular[]"]').value,
+                ng: row.querySelector('input[name="ng[]"]').value,
+                direccion: row.querySelector('input[name="direccion[]"]').value,
+                duracion: row.querySelector('input[name="duracion[]"]').value,
+            };
+            data.exploracionVestibular.canalesSemicirculares.push(canal);
         });
 
         const nombre = data.datosPersonales.nombre || "sin-nombre";
