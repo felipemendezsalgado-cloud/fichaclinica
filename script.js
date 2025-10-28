@@ -391,6 +391,7 @@ document.addEventListener("DOMContentLoaded", function() {
             anamnesisRemota: {},
             exploracionGeneral: {},
             exploracionAnalitica: {},
+            exploracionVestibular: {},
             imagenologia: {
                 imagenes: []
             },
@@ -419,6 +420,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     break;
                 case 'exploracion-analitica':
                     data.exploracionAnalitica[id] = el.type === 'checkbox' ? el.checked : el.value;
+                    break;
+                case 'exploracion-vestibular':
+                    data.exploracionVestibular[id] = el.type === 'checkbox' ? el.checked : el.value;
                     break;
                 case 'tratamiento':
                     if (id === 'objetivo_general') data.tratamiento.objetivoGeneral = el.value;
