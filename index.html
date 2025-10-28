@@ -178,6 +178,10 @@
                         <h5 class="card-title">Anamnesis Remota</h5>
                         <form>
                             <div class="mb-3">
+                                <label for="habitos" class="form-label">Hábitos:</label>
+                                <textarea class="form-control" id="habitos" name="habitos" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label d-block">Comorbilidades:</label>
                                 <div class="row">
                                     <!-- Column 1 -->
@@ -272,12 +276,26 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="habitos" class="form-label">Hábitos:</label>
-                                <textarea class="form-control" id="habitos" name="habitos" rows="3"></textarea>
-                            </div>
-                            <div class="mb-3">
                                 <label for="medicamentos" class="form-label">Medicamentos de uso actual:</label>
                                 <textarea class="form-control" id="medicamentos" name="medicamentos" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label d-block">Control médico asociado a comorbilidades:</label>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="control_medico" id="control_medico_si" value="si">
+                                            <label class="form-check-label" for="control_medico_si">Sí</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="control_medico" id="control_medico_no" value="no">
+                                            <label class="form-check-label" for="control_medico_no">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <textarea class="form-control d-none" id="control_medico_descripcion" name="control_medico_descripcion" placeholder="Especifique..." rows="1"></textarea>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="cirugias" class="form-label">Cirugías:</label>
