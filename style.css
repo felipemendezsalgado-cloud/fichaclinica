@@ -111,6 +111,10 @@ body {
     border-color: var(--dark-green);
 }
 
+#importar-json-btn {
+    color: var(--white);
+}
+
 /* PSEQ Questionnaire Styles */
 .pseq-question {
     margin-bottom: 1rem;
