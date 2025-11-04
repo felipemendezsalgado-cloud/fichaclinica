@@ -906,26 +906,33 @@
                     <div class="card-body">
                         <h5 class="card-title">Imagenología</h5>
                         <div id="imagenes-container">
-                            <!-- Image 1 -->
+                            <!-- Image Group 1 -->
                             <div class="card imagen-card mb-3">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <h6 class="card-title mb-0">Imagen 1</h6>
-                                        <button type="button" class="btn btn-danger btn-sm remove-imagen-btn">Quitar</button>
+                                        <h6 class="card-title mb-0">Grupo de Imágenes 1</h6>
+                                        <button type="button" class="btn btn-danger btn-sm remove-imagen-btn">Quitar Grupo</button>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Descripción:</label>
                                         <textarea class="form-control" name="imagen_descripcion[]" rows="2"></textarea>
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Importar archivo (PNG o JPG):</label>
-                                        <input type="file" class="form-control" name="imagen_archivo[]" accept="image/png, image/jpeg">
-                                        <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                                    <div class="image-files-container">
+                                        <!-- File inputs will be added here -->
+                                        <div class="mb-3 image-file-entry">
+                                            <label class="form-label">Importar archivo (PNG o JPG):</label>
+                                            <div class="input-group">
+                                                <input type="file" class="form-control" name="imagen_archivo_1[]" accept="image/png, image/jpeg">
+                                                <button class="btn btn-danger btn-sm remove-image-file-btn" type="button">Quitar</button>
+                                            </div>
+                                            <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                                        </div>
                                     </div>
+                                    <button type="button" class="btn btn-primary btn-sm add-image-file-btn mt-2">Agregar Archivo</button>
                                 </div>
                             </div>
                         </div>
-                        <button type="button" id="add-imagen-btn" class="btn btn-success mt-2">Agregar Imagen</button>
+                        <button type="button" id="add-imagen-btn" class="btn btn-success mt-2">Agregar Grupo de Imágenes</button>
                     </div>
                 </div>
             </div>

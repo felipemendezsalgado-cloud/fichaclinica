@@ -111,16 +111,13 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateImageNumbers() {
         const imagenCards = document.querySelectorAll('.imagen-card');
         imagenCards.forEach((card, index) => {
-            card.querySelector('.card-title').textContent = `Imagen ${index + 1}`;
-        });
-    }
-
-    if (imagenesContainer) {
-        imagenesContainer.addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove-imagen-btn')) {
-                e.target.closest('.imagen-card').remove();
-                updateImageNumbers();
-            }
+            const groupNumber = index + 1;
+            card.querySelector('.card-title').textContent = `Grupo de Imágenes ${groupNumber}`;
+            // Update the name of the file inputs to match the new group number
+            const fileInputs = card.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                input.name = `imagen_archivo_${groupNumber}[]`;
+            });
         });
     }
 
@@ -132,18 +129,24 @@ document.addEventListener("DOMContentLoaded", function() {
             newImagen.innerHTML = `
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title mb-0">Imagen ${newImagenNumber}</h6>
-                        <button type="button" class="btn btn-danger btn-sm remove-imagen-btn">Quitar</button>
+                        <h6 class="card-title mb-0">Grupo de Imágenes ${newImagenNumber}</h6>
+                        <button type="button" class="btn btn-danger btn-sm remove-imagen-btn">Quitar Grupo</button>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Descripción:</label>
                         <textarea class="form-control" name="imagen_descripcion[]" rows="2"></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Importar archivo (PNG o JPG):</label>
-                        <input type="file" class="form-control" name="imagen_archivo[]" accept="image/png, image/jpeg">
-                        <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                    <div class="image-files-container">
+                        <div class="mb-3 image-file-entry">
+                            <label class="form-label">Importar archivo (PNG o JPG):</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" name="imagen_archivo_${newImagenNumber}[]" accept="image/png, image/jpeg">
+                                <button class="btn btn-danger btn-sm remove-image-file-btn" type="button">Quitar</button>
+                            </div>
+                            <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                        </div>
                     </div>
+                    <button type="button" class="btn btn-primary btn-sm add-image-file-btn mt-2">Agregar Archivo</button>
                 </div>
             `;
             imagenesContainer.appendChild(newImagen);
@@ -152,6 +155,43 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     if (imagenesContainer) {
+        imagenesContainer.addEventListener('click', function(e) {
+            // Handle removing a whole group
+            if (e.target.classList.contains('remove-imagen-btn')) {
+                e.target.closest('.imagen-card').remove();
+                updateImageNumbers();
+            }
+            // Handle adding a new file input to a group
+            if (e.target.classList.contains('add-image-file-btn')) {
+                const card = e.target.closest('.imagen-card');
+                const filesContainer = card.querySelector('.image-files-container');
+                const groupNumber = Array.from(document.querySelectorAll('.imagen-card')).indexOf(card) + 1;
+
+                const newFileEntry = document.createElement('div');
+                newFileEntry.classList.add('mb-3', 'image-file-entry');
+                newFileEntry.innerHTML = `
+                    <label class="form-label">Importar archivo (PNG o JPG):</label>
+                    <div class="input-group">
+                        <input type="file" class="form-control" name="imagen_archivo_${groupNumber}[]" accept="image/png, image/jpeg">
+                        <button class="btn btn-danger btn-sm remove-image-file-btn" type="button">Quitar</button>
+                    </div>
+                    <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                `;
+                filesContainer.appendChild(newFileEntry);
+            }
+            // Handle removing a single file input
+            if (e.target.classList.contains('remove-image-file-btn')) {
+                const fileEntry = e.target.closest('.image-file-entry');
+                const filesContainer = fileEntry.parentElement;
+                // Prevent removing the last file input
+                if (filesContainer.querySelectorAll('.image-file-entry').length > 1) {
+                    fileEntry.remove();
+                } else {
+                    alert("No se puede quitar el único archivo. Para eliminar todo, use 'Quitar Grupo'.");
+                }
+            }
+        });
+
         imagenesContainer.addEventListener('change', handleImagePreview);
     }
 
@@ -255,11 +295,21 @@ document.addEventListener("DOMContentLoaded", function() {
             }
             updateSessionNumbers();
 
-            // Remove all but the first image entry
-            const allImages = imagenesContainer.querySelectorAll('.imagen-card');
-            for (let i = allImages.length - 1; i > 0; i--) {
-                allImages[i].remove();
-            }
+            // Reset image groups to a single group with a single file input
+            const allImageGroups = imagenesContainer.querySelectorAll('.imagen-card');
+            allImageGroups.forEach((group, index) => {
+                if (index > 0) {
+                    group.remove();
+                } else {
+                    // For the first group, remove all but the first file input
+                    const fileEntries = group.querySelectorAll('.image-file-entry');
+                    fileEntries.forEach((entry, fileIndex) => {
+                        if (fileIndex > 0) {
+                            entry.remove();
+                        }
+                    });
+                }
+            });
             updateImageNumbers();
         });
     }
@@ -375,20 +425,52 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         updateSessionNumbers();
 
-        // Recreate images for "Imagenología"
-        const imagenes = data.imagenologia ? data.imagenologia.imagenes || [] : [];
+        // Recreate image groups for "Imagenología"
+        const imagenGroups = data.imagenologia ? data.imagenologia.imagenes || [] : [];
         const allImageCards = imagenesContainer.querySelectorAll('.imagen-card');
         allImageCards.forEach(card => card.remove());
-        if (imagenes.length > 0) {
-            imagenes.forEach((imagenData) => {
-                addImagenBtn.click();
+
+        if (imagenGroups.length > 0) {
+            imagenGroups.forEach((groupData) => {
+                addImagenBtn.click(); // This creates a new group with one empty file input
                 const newCard = imagenesContainer.querySelector('.imagen-card:last-child');
                 if (newCard) {
-                    newCard.querySelector('textarea[name="imagen_descripcion[]"]').value = imagenData.descripcion;
-                    const img = newCard.querySelector('img');
-                    if (imagenData.imagen && imagenData.imagen.startsWith('data:image')) {
-                        img.src = imagenData.imagen;
-                        img.classList.remove('d-none');
+                    newCard.querySelector('textarea[name="imagen_descripcion[]"]').value = groupData.descripcion;
+                    const filesContainer = newCard.querySelector('.image-files-container');
+                    const fileEntries = filesContainer.querySelectorAll('.image-file-entry');
+
+                    // Remove the default empty file input
+                    fileEntries.forEach(entry => entry.remove());
+
+                    const groupNumber = Array.from(document.querySelectorAll('.imagen-card')).indexOf(newCard) + 1;
+
+                    if (groupData.imagenes && groupData.imagenes.length > 0) {
+                        groupData.imagenes.forEach(imgSrc => {
+                            const newFileEntry = document.createElement('div');
+                            newFileEntry.classList.add('mb-3', 'image-file-entry');
+                            newFileEntry.innerHTML = `
+                                <label class="form-label">Importar archivo (PNG o JPG):</label>
+                                <div class="input-group">
+                                    <input type="file" class="form-control" name="imagen_archivo_${groupNumber}[]" accept="image/png, image/jpeg">
+                                    <button class="btn btn-danger btn-sm remove-image-file-btn" type="button">Quitar</button>
+                                </div>
+                                <img src="${imgSrc}" alt="Vista previa de la imagen" class="img-fluid mt-2" style="max-height: 200px;">
+                            `;
+                            filesContainer.appendChild(newFileEntry);
+                        });
+                    } else {
+                        // If there are no images, add one empty file input
+                        const newFileEntry = document.createElement('div');
+                        newFileEntry.classList.add('mb-3', 'image-file-entry');
+                        newFileEntry.innerHTML = `
+                            <label class="form-label">Importar archivo (PNG o JPG):</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" name="imagen_archivo_${groupNumber}[]" accept="image/png, image/jpeg">
+                                <button class="btn btn-danger btn-sm remove-image-file-btn" type="button">Quitar</button>
+                            </div>
+                            <img src="" alt="Vista previa de la imagen" class="img-fluid mt-2 d-none" style="max-height: 200px;">
+                        `;
+                        filesContainer.appendChild(newFileEntry);
                     }
                 }
             });
@@ -539,11 +621,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Gather image data for "Imagenología"
         document.querySelectorAll('#imagenes-container .imagen-card').forEach(card => {
-            const imagen = {
+            const group = {
                 descripcion: card.querySelector('textarea[name="imagen_descripcion[]"]').value,
-                imagen: card.querySelector('img').src,
+                imagenes: []
             };
-            data.imagenologia.imagenes.push(imagen);
+            card.querySelectorAll('.image-file-entry img').forEach(img => {
+                if (img.src && img.src.startsWith('data:image')) {
+                    group.imagenes.push(img.src);
+                }
+            });
+            data.imagenologia.imagenes.push(group);
         });
 
         // Gather image data for "Descripción del dolor"
